@@ -50,28 +50,52 @@
             <div class="row">
               <div class="col-lg-8 col-sm-8 map-col">
                 <input class="form-control" type="text"  width="100px" id="search_bar"/><br/>
-                <div id="map"></div>
+                <div id="map"></div><br/>
+                <button type="button" class="btn btn-info btn-lg button" data-toggle="modal" data-target="#myModal" onclick="request_pass_list()">Create Mission</button>
               </div>
               <div class="col-lg-3 col-sm-3">
                 <h4>Select satellite</h4>
                 <select id="satellites" class="form-control">
-                  <option value="44878">LANDSAT</option>
+                  <option value="55050">UMBRA-04</option>
+                  <option value="55036">UMBRA-05</option>
+                  <option value="56198">UMBRA-06</option>
                 </select><br/>
-                <h4>Select dataset</h4>
-
-                <select id="instruments" class="form-control">
-                  <option value="gls_all">Global Land Survey</option>
+                <h4>Polarization</h4>
+                <select id="polarization" class="form-control">
+                  <option value="vv">VV</option>
+                  <option value="vv">HH</option>
                 </select><br/>
+                <h4>Grazing angle</h4>
+                <div class="row">
+                <div class="col-lg-6 col-sm-6">
+                <label for="min_gr_angle">Min:</label>
+                  <input type=number id="min_gr_angle" value="30" min="30" max="70" class="form-control">
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                <label for="max_gr_angle">Max:</label>
+                  <input type=number id="max_gr_angle" value="70" min="30" max="70" class="form-control">
+                </div>
+                </div><br/>
+                <h5>Target Azimuth Degree</h5>
+                <div class="row">
+                <div class="col-lg-6 col-sm-6">
+                <label for="min_az_angle">Min:</label>
+                  <input type=number id="min_az_angle" value="0" min="0" max="360" class="form-control">
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                <label for="max_az_angle">Max:</label>
+                  <input type=number id="max_az_angle" value="360" min="0" max="360" class="form-control">
+                </div>
+                </div><br/>
                 <h4>Schedule Pass </h4>
                 <table class="table">
                   <tr>
-                    <td>Start Date: <input type="text" id="datepicker_start"></p></td>
+                    <td>Start Date: <input type="text" id="datepicker_start" class="form-control"></p></td>
                   </tr>
                   <tr>
-                    <td>End Date:&nbsp;&nbsp; <input type="text" id="datepicker_end"></p></td>
+                    <td>End Date:&nbsp;&nbsp; <input type="text" id="datepicker_end" class="form-control"></p></td>
                   </tr>
                 </table>
-                <button type="button" class="btn btn-info btn-lg button" data-toggle="modal" data-target="#myModal" onclick="request_pass_list()">Create Mission</button>
               </div>
             </div>
           </div>
