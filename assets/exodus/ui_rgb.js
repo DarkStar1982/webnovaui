@@ -4,16 +4,32 @@ var api_server = "http://"+hostname;
 var fov_polygons = [];
 var local_cache = {};
 
-if (hostname = 'localhost') api_server = api_server + ':8000/';
-else api_server = api_server + '/';
+//  use these after the lookup
+var selectedLat = 0, selectedLng = 0;
+
+if (hostname = 'localhost') {
+  api_server = api_server + ':8000/';
+} else {
+  api_server = api_server + '/';
+}
 
 function set_map()
 {
-  var input_str = $("#search_bar").val();
-  var lat_val = input_str.split(",")[0].trim();
-  var lon_val = input_str.split(",")[1].trim();
+  let coord =  $("#search_bar").val().split(",");
+  var lat_val = coord[0] ? coord[0].trim() : 0;
+  var lon_val = coord[1] ? coord[1].trim() : 0;
+  //  set as global vars
+  selectedLat = lat_val;
+  selectedLng = lon_val;
   var zoom_l = map.getZoom();
   map.panTo([lat_val, lon_val], zoom_l);
+  redraw_fov_polygon();
+}
+
+function set_map_location(lat,lng)
+{
+  var zoom_l = map.getZoom();
+  map.panTo([lat, lng], zoom_l);
   redraw_fov_polygon();
 }
 
@@ -63,7 +79,7 @@ function redraw_fov_polygon()
             [south_lat, east_lon],
             [south_lat, west_lon],
             [north_lat, west_lon]
-            ]).addTo(map);
+          ]).addTo(map);
           fov_polygons.push(fov_polygon);
               //draw rectangle
         });
@@ -154,7 +170,7 @@ function launch_mission()
 $(document).ready(function () {
   $("#dialog_text").hide();
   map = L.map('map').setView([46.19, 30.35], 10);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
@@ -165,15 +181,27 @@ $(document).ready(function () {
   $("#datepicker_start").datepicker('setDate', 'today');
 
   $("#datepicker_end").datepicker();
-
-  var search_bar = document.getElementById("search_bar");
-  search_bar.addEventListener("keypress", function(event) {
-        // If the user presses the "Enter" key on the keyboard
-    if (event.key === "Enter") {
-          // Cancel the default action, if needed
+  
+  $("#search_bar").autocomplete({
+    source: function(request, response) {
+      // https://developers.arcgis.com/esri-leaflet/samples/geocoding-control/
+      $.ajax( {
+        url: arcgis_url+request.term,
+        dataType: "json",
+        success: function(data) {
+          let dataResp = [];
+          $.each(data.candidates, function(item, val) {
+            dataResp.push({label:val.address, value: val.location});
+          });
+          response(dataResp);
+        }
+      } );
+    },
+    minLength: 2,
+    select: function(event, ui) {
       event.preventDefault();
-      set_map();
+      set_map_location(ui.item.value.y, ui.item.value.x);
+      $("#search_bar").val(ui.item.label);
     }
   });
-
 });

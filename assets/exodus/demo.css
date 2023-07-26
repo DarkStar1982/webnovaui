@@ -61,6 +61,14 @@ input[type=search]::-webkit-search-cancel-button {
     width: 82vh;
 }
 
+/*  autocomplete has to be on top of map */
+ul.ui-autocomplete {
+    z-index: 2000!important;
+}
+ul.ui-autocomplete li.ui-menu-item div{
+    color: #000;
+}
+
 @media (max-width: 760px) {
     .search-pane{
         padding-left: 2vw;
