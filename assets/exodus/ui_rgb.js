@@ -193,7 +193,7 @@ $(document).ready(function () {
           $.each(data.candidates, function(item, val) {
             dataResp.push({label:val.address, value: val.location});
           });
-          response(dataResp);
+          response(dataResp.slice(0, 10));
         }
       } );
     },
