@@ -11,6 +11,8 @@
   <!-- CSS Files -->
   <link href="assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
   <link href="assets/exodus/app_dash.css" rel="stylesheet" />
+  <link href="assets/exodus/dashboard.css" rel="stylesheet" />
+
   <link href="assets/exodus/demo.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <!-- <script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script> -->
@@ -85,8 +87,16 @@
           aria-selected="false" onclick="load_missions()">Your Data</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" id="upload-tab" data-toggle="tab" href="#publish" role="tab" aria-controls="data"
+          aria-selected="false">Publish App</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="admin-tab" data-toggle="tab" href="#admin_ui" role="tab" aria-controls="data"
+          aria-selected="false">Mission Control</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" id="app-tab" data-toggle="tab" href="#custom_apps" role="tab" aria-controls="data"
-          aria-selected="false">Your Apps</a>
+          aria-selected="false">App Store</a>
       </li>
     </ul>
 
@@ -161,7 +171,151 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane fade show" id="custom_apps" role="tabpanel" aria-labelledby="app-tab">
+      <div class="tab-pane fade show" id="publish" role="tabpanel" aria-labelledby="upload-tab">
+        <div class="row">
+          <div class="col-12 app-data text-center">
+            <h3>Step by step guide</h3>
+            <div class="row">
+              <div class="col-lg-3 text-left">
+            <ol>
+              <li><h4>Download Docker template</h4></li>
+              <li><h4>Add your code</h4></li>
+              <li><h4>Deploy your image</h4></li>
+              <li><h4>Publish your app</h4></li>
+            </ol>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade show" id="admin_ui" role="tabpanel" aria-labelledby="admin-tab">
+        <div class="row">
+          <div class="col-12 app-data text-center">
+              <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card card-chart">
+                            <div class="card-header ">
+                                <div class="row">
+                                    <div class="col-sm-12 text-left">
+                                        <h5 class="card-category"></h5>
+                                        <h2 class="card-title">Trajectory</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body map-box-class" id="map_box">
+
+                                <div id="earth_map_top_bar">
+                                    <span id="lat">LAT: {{ datalocation.lat }}</span>
+                                    <span id="lng">LNG: {{ datalocation.lng }}</span>
+                                    <span id="alt">ALT: {{ datalocation.alt }}</span>
+                                    <span id="time">TIME: {{ datalocation.time }}</span>
+                                </div>
+                                <!-- <div id="earth_map_img"></div> -->
+                                <canvas id="earth_map_img"></canvas>
+                                <div id="earth_map_bottom_bar">
+                                    <span id="a_bar">a: {{ datalocation.a }}</span>
+                                    <span id="e_bar">e: {{ datalocation.e }}</span>
+                                    <span id="i_bar">i: {{ datalocation.i }}</span>
+                                    <span id="ra_bar">RA: {{ datalocation.ra }}</span>
+                                    <span id="w_bar">w: {{ datalocation.w }}</span>
+                                    <span id="tp_bar">Tp: {{ datalocation.tp }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center">
+
+                        <div class="card telemetry">
+                            <div class="card-header">
+                                Live Telemetry
+                            </div>
+                            <div class="card-body" id="telemetry_box">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h3>POWER</h3>
+                                        <div class="row" id="power_sect">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <h3>THERMAL</h3>
+                                        <div class="row" id="thermal_sect">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h3>OBDH</h3>
+                                        <div class="row" id="obdh_sect">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <h3>ADCS</h3>
+                                        <div class="row" id="adcs_sect">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 text-center">
+
+                        <div class="card actions">
+                            <div class="card-header">
+                                Instrument Actions
+                            </div>
+                            <div class="card-body text-left" id="actions_box">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h3>Camera</h3>
+                                        <div class="row" id="camera_sect">
+
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-12 download-img-button">
+                                        <button class="btn btn-info btn-block take-photo"><i class="tim-icons icon-camera-18"></i> Photo</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6 text-center">
+
+                        <div class="card eventlog">
+                            <div class="card-header">
+                                Event Log
+                            </div>
+                            <div class="card-body" id="log_box">
+                                <div class="row">
+                                    <div class="col-4">
+                                        Timestamp
+                                    </div>
+                                    <div class="col-8">
+                                        Description
+                                    </div>
+                                </div>
+                                <div class="row_log" id="row_logs">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade show" id="custom_apps" role="tabpanel" aria-labelledby="app-tab">
       <div class="row dash-row">
           <div class="col-12 app-dashboard text-center">
         <div class="row">
@@ -241,8 +395,6 @@
               </div>
             </div>
 
-
-
           </div>
         </div>
       </div>
@@ -261,6 +413,8 @@
   <script type="text/javascript" src="assets/js/black-dashboard.min.js?v=1.0.0"></script>
   <script type="text/javascript" src="assets/exodus/general.js"></script>
   <script type="text/javascript" src="assets/exodus/init.js"></script>
+  <script type="text/javascript" src="assets/exodus/dashboard.js"></script>
+
 </body>
 
 </html>
