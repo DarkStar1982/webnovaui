@@ -97,3 +97,17 @@ tim-row {
 .missionDetails .col-6{
     margin-top: 20px;
 }
+
+.content.challenge{
+    padding-left: 10%;
+}
+
+.row.challenge-board-table .col-3,
+.row.challenge-board-table .col-4
+{
+    padding-bottom: 15px;
+}
+
+.text-yellow{
+    color:#fff42b
+}
