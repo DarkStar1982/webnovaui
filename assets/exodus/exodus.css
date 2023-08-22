@@ -111,3 +111,11 @@ tim-row {
 .text-yellow{
     color:#fff42b
 }
+#teamname option,
+#challenge-picker option{
+    color: black;
+}
+#deploy-logs {
+    height: 300px;
+    min-height: 300px;
+}
