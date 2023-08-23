@@ -6,7 +6,7 @@
         <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
         <link rel="icon" type="image/png" href="assets/img/favicon.png">
         <title>
-            Challenge Board
+            Publish App
         </title>
         <!--     Fonts and icons     -->
         <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
@@ -25,48 +25,41 @@
                 <div class="col-12 text-left ml-1 logo-col-row pl-5">
                     <a href="demo.html">
                         <img class="logo" src="assets/img/logo-white.png">
-                        <h2>Challenge Board</h2>
+                        <h2>Publish App</h2>
                     </a>
                 </div>
             </div>
         </div>
         <div class="wrapper">
             <div class="main-panel">
-                <div class="content challenge">
-                    <div class="row challenge-board-table">
-                        <div class="col-lg-9 col-md-9 text-center">
-                            <div class="row text-bold text-white">
-                                <div class="col-3">Challenge Name</div>
-                                <div class="col-3">Data Type</div>
-                                <div class="col-3">Data Type (points)</div>
-                                <div class="col-3">Description</div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <select name="challenge" id="challenge-picker" class="form-control">
+                                <option>Challenge 1</option>
+                                <option>Challenge 2</option>
+                                <option>Challenge 3</option>
+                                <option>Challenge 4</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <a href="#" class="btn btn-large">Deploy</a>
+                                </div>
                             </div>
-                            <div class="row text-yellow">
-                                <div class="col-3">Take a Snap!</div>
-                                <div class="col-3">Optical</div>
-                                <div class="col-3">Easy(10)</div>
-                                <div class="col-3">A mission to take a snapsot of an area</div>
-                            </div>
-                            <div class="row text-yellow">
-                                <div class="col-3">Challenge 1</div>
-                                <div class="col-3">Multyspectral</div>
-                                <div class="col-3">Medium (50)</div>
-                                <div class="col-3">Mission</div>
-                            </div>
-                            <div class="row text-yellow">
-                                <div class="col-3">Challenge 2</div>
-                                <div class="col-3">Hiperspectral</div>
-                                <div class="col-3">Medium (50)</div>
-                                <div class="col-3">Mission</div>
-                            </div>
-                            <div class="row text-yellow">
-                                <div class="col-3">Challenge 3</div>
-                                <div class="col-3">S&R</div>
-                                <div class="col-3">Hard (100)</div>
-                                <div class="col-3">Mission</div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <textarea cols="24" rows="20" class="form-control" name="logs" id="deploy-logs">
+                                        Logs....
+                                        Logs....
+                                        Logs....
+                                        Logs....
+                                    </textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <footer class="footer">
                     <div class="container-fluid">
