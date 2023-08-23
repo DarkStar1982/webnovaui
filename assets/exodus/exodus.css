@@ -116,6 +116,11 @@ tim-row {
     color: black;
 }
 #deploy-logs {
-    height: 300px;
+    height: 400px;
     min-height: 300px;
+}
+
+#leader-board-score thead td{
+    color: #c0c1c2;
+    font-weight: 800;
 }
