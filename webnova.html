@@ -13,6 +13,7 @@
   <link href="assets/exodus/app_dash.css" rel="stylesheet" />
 
   <link href="assets/exodus/demo.css" rel="stylesheet" />
+  <link href="assets/exodus/exodus.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <!-- <script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script> -->
   <!-- <script type="text/javascript" src="node_modules/vue-router/dist/vue-router.min.js"></script> -->
@@ -176,13 +177,45 @@
             <h3>Step by step guide</h3>
             <div class="row">
               <div class="col-lg-3 text-left">
-            <ol>
-              <li><h4>Download Docker template</h4></li>
-              <li><h4>Add your code</h4></li>
-              <li><h4>Deploy your image</h4></li>
-              <li><h4>Publish your app</h4></li>
-            </ol>
-          </div>
+                <ol>
+                  <li><h4>Download Docker template</h4></li>
+                  <li><h4>Add your code</h4></li>
+                  <li><h4>Deploy your image</h4></li>
+                  <li><h4>Publish your app</h4></li>
+                </ol>
+              </div>
+              <div class="col-lg-9 text-left">
+                <div class="row">
+
+                  <div class="col-lg-12 col-md-6">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <select name="challenge" id="challenge-picker" class="form-control">
+                                <option>Challenge 1</option>
+                                <option>Challenge 2</option>
+                                <option>Challenge 3</option>
+                                <option>Challenge 4</option>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-12 col-md-12">
+                              <a href="#" class="btn btn-large">Deploy</a>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-12 col-md-12">
+                              <textarea cols="24" rows="25" class="form-control" name="logs" id="deploy-logs">
+                                  Logs....
+                                  Logs....
+                                  Logs....
+                                  Logs....
+                              </textarea>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
       </div>
