@@ -19,49 +19,6 @@
   <!-- <script type="text/javascript" src="node_modules/vue-router/dist/vue-router.min.js"></script> -->
   <script type="text/javascript" src="assets/js/core/jquery.min.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-  <script type="text/javascript">
-    let hostname = location.hostname;
-    var api_server = "http://"+hostname;
-    console.log(hostname);
-    //I am dumb here
-    if (hostname = 'localhost') api_server = api_server + ':8000/';
-    else api_server = api_server + '/';
-    
-    function load_missions()
-      {
-        var api_missions_url = api_server +"webnova/v1/mission_list/";
-        $.get(api_missions_url, function(data){
-          var mission_list = JSON.parse(data);
-          $('#mission_list_table tbody').empty();
-          var tableBody = $('#mission_list_table tbody');
-          // Iterate over each object in the data list
-          $.each(mission_list, function(index, object) {
-            // Create a new row element
-            var row = $('<tr>');
-            // Add a cell for each property of the object
-            $('<td>').html(object.id).appendTo(row);
-            $('<td>').html(object.type).appendTo(row);
-            $('<td>').html(object.target).appendTo(row);
-            $('<td>').html(object.status).appendTo(row);
-            $('<td>').html(object.start_date).appendTo(row);
-            $('<td>').html(object.date_available).appendTo(row);
-            if (object.download_link=='Not available yet')
-            {
-              $('<td>').html(object.download_link).appendTo(row);
-            }
-            else {
-              $('<td>').html('<button class=btn><a href="'+object.download_link+'">Download</a></button>').appendTo(row);
-            }
-            // Append the row to the table body
-            row.appendTo(tableBody);
-          })
-        });
-      }
-
-    $(document).ready(function () {
-      //load mission list
-    });
-  </script>
 </head>
 
 <body>
@@ -84,19 +41,11 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" id="home-tab" data-toggle="tab" href="#config" role="tab" aria-controls="home"
-          aria-selected="true">Data Sources</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="data-tab" data-toggle="tab" href="#datum" role="tab" aria-controls="data"
-          aria-selected="false" onclick="load_missions()">Your Data</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="upload-tab" data-toggle="tab" href="#publish" role="tab" aria-controls="data"
-          aria-selected="false">Publish Code</a>
+          aria-selected="true">Satellites</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="admin-tab" data-toggle="tab" href="#admin_ui" role="tab" aria-controls="data"
-          aria-selected="false">App Dashboard</a>
+          aria-selected="false">Dashboard</a>
       </li>
     </ul>
 
@@ -171,56 +120,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane fade show" id="publish" role="tabpanel" aria-labelledby="upload-tab">
-        <div class="row">
-          <div class="col-12 app-data text-center">
-            <h3>Step by step guide</h3>
-            <div class="row">
-              <div class="col-lg-3 text-left">
-                <ol>
-                  <li><h4>Download Docker template</h4></li>
-                  <li><h4>Add your code</h4></li>
-                  <li><h4>Deploy your image</h4></li>
-                  <li><h4>Publish your app</h4></li>
-                </ol>
-              </div>
-              <div class="col-lg-9 text-left">
-                <div class="row">
-
-                  <div class="col-lg-12 col-md-6">
-                      <div class="row">
-                        <div class="col-lg-6 col-md-6">
-                            <select name="challenge" id="challenge-picker" class="form-control">
-                                <option>Challenge 1</option>
-                                <option>Challenge 2</option>
-                                <option>Challenge 3</option>
-                                <option>Challenge 4</option>
-                            </select>
-                        </div>
-                      </div>
-                      <div class="row">
-                          <div class="col-lg-12 col-md-12">
-                              <a href="#" class="btn btn-large">Deploy</a>
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="col-lg-12 col-md-12">
-                              <textarea cols="24" rows="25" class="form-control" name="logs" id="deploy-logs">
-                                  Logs....
-                                  Logs....
-                                  Logs....
-                                  Logs....
-                              </textarea>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="tab-pane fade show" id="admin_ui" role="tabpanel" aria-labelledby="admin-tab">
+      <div class="tab-pane fade show" id="admin_ui" role="tabpanel" aria-labelledby="admin-tab">
         <div class="row">
           <div class="col-12 app-data text-center">
               <div class="row">

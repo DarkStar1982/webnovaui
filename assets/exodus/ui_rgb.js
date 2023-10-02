@@ -13,6 +13,38 @@ if (hostname = 'localhost') {
   api_server = api_server + '/';
 }
 
+function load_missions()
+{
+  var api_missions_url = api_server +"webnova/v1/mission_list/";
+  $.get(api_missions_url, function(data){
+    var mission_list = JSON.parse(data);
+    $('#mission_list_table tbody').empty();
+    var tableBody = $('#mission_list_table tbody');
+    // Iterate over each object in the data list
+    $.each(mission_list, function(index, object) {
+      // Create a new row element
+      var row = $('<tr>');
+      // Add a cell for each property of the object
+      $('<td>').html(object.id).appendTo(row);
+      $('<td>').html(object.type).appendTo(row);
+      $('<td>').html(object.target).appendTo(row);
+      $('<td>').html(object.status).appendTo(row);
+      $('<td>').html(object.start_date).appendTo(row);
+      $('<td>').html(object.date_available).appendTo(row);
+      if (object.download_link=='Not available yet')
+      {
+        $('<td>').html(object.download_link).appendTo(row);
+      }
+      else {
+        $('<td>').html('<button class=btn><a href="'+object.download_link+'">Download</a></button>').appendTo(row);
+      }
+      // Append the row to the table body
+      row.appendTo(tableBody);
+    })
+  });
+}
+
+
 function set_map()
 {
   let coord =  $("#search_bar").val().split(",");
