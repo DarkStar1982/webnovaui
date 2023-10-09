@@ -36,15 +36,11 @@
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#config" role="tab" aria-controls="home"
-          aria-selected="true">Create</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="home-tab" data-toggle="tab" href="#publish" role="tab" aria-controls="pubs"
-          aria-selected="false">Publish</a>
+        aria-selected="true">Create</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="data-tab" data-toggle="tab" href="#datum" role="tab" aria-controls="data"
-          aria-selected="false" onclick="load_missions()">Mission Results</a>
+        aria-selected="false" onclick="load_missions()">Your Missions</a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -83,85 +79,62 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane fade show" id="publish" role="tabpanel" aria-labelledby="pubs-tab">
-        <div class="row">
-          <div class="col-12 app-data text-center">
-            <h3>Step by step guide</h3>
-            <div class="row">
-              <div class="col-lg-3 text-left">
-                <ol>
-                  <li><h4>Download Docker template</h4></li>
-                  <li><h4>Add your code</h4></li>
-                  <li><h4>Deploy your image</h4></li>
-                  <li><h4>Publish your app</h4></li>
-                </ol>
-              </div>
-              <div class="col-lg-9 text-left">
-                <div class="row">
 
-                  <div class="col-lg-12 col-md-6">
-                      <div class="row">
-                        <div class="col-lg-6 col-md-6">
-                            <select name="challenge" id="challenge-picker" class="form-control">
-                                <option>Challenge 1</option>
-                                <option>Challenge 2</option>
-                                <option>Challenge 3</option>
-                                <option>Challenge 4</option>
-                            </select>
-                        </div>
-                      </div>
-                      <div class="row">
-                          <div class="col-lg-12 col-md-12">
-                              <a href="#" class="btn btn-large">Deploy</a>
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="col-lg-12 col-md-12">
-                              <textarea cols="24" rows="25" class="form-control" name="logs" id="deploy-logs">
-                                  Logs....
-                                  Logs....
-                                  Logs....
-                                  Logs....
-                              </textarea>
-                          </div>
-                      </div>
-                  </div>
-                </div>
+      <div class="tab-pane fade show" id="datum" role="tabpanel" aria-labelledby="data-tab">
+        <div class="row map-row">
+          <div class="col-12">
+            <!--deploy pipeline -->
+            <br />
+            <div class="row">
+              <div class="col-lg-6 col-sm-6 map-col">
+
+                <h4>Download Docker template</h4>
+                <select name="challenge" id="challenge-picker" class="form-control">
+                  <option>Satellite 1</option>
+                  <option>Satellite 2</option>
+                  <option>Satellite 3</option>
+                  <option>Satellite 4</option>
+                </select>
+                <br/>
+                <a href="#" class="btn btn-large ">Download</a>
               </div>
+              <div class="col-lg-6 col-md-6">
+                <h4>1. Add your code and mission config to the template</h4>
+                <h4>2. Publish your solution via uploading your image</h4><br/>
+                <a href="#" class="btn btn-large">Deploy</a>
             </div>
           </div>
-        </div>
-    </div>
-    <div class="tab-pane fade show" id="datum" role="tabpanel" aria-labelledby="data-tab">
-        <div class="row">
-          <div class="col-12 app-data text-center">
+         <div class="row">
+          <div class="col-12 app-data text-center map-col">
             <table class="table" id="mission_list_table">
               <thead>
-              <tr>
-                <th>ID</th>
-                <th>Type</th>
-                <th>Target</th>
-                <th>Status</th>
-                <th>Date Created</th>
-                <th>Date Available</th>
-                <th>Download Link</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
+                <tr>
+                  <th>ID</th>
+                  <th>Type</th>
+                  <th>Target</th>
+                  <th>Status</th>
+                  <th>Date Created</th>
+                  <th>Date Available</th>
+                  <th>Download Link</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
             </table>
           </div>
         </div>
-      </div>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Launch mission</h4>
-          </div>
-          <div class="modal-body">
+    </div>
+  </div>
+</div>
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Launch mission</h4>
+            </div>
+            <div class="modal-body">
               <table class="table table-dark">
                 <tr>
                   <td>Target Latitude</td><td><span id="target_lat">0.00</span></td>
@@ -174,33 +147,33 @@
               <table class="table table-dark" >
                 <tr>
                   <th class="text-white">Start Time</th><th class="text-white">End Time</th><th></th>
-                <tbody id="available_pass_list">
-                </tbody>
+                  <tbody id="available_pass_list">
+                  </tbody>
                 </tr>
               </table>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Abort</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="launch_mission()">Launch!</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Abort</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="launch_mission()">Launch!</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
 
-  <!--   Core JS Files   -->
-  <script type="text/javascript" src="assets/js/core/popper.min.js"></script>
-  <script type="text/javascript" src="assets/js/core/bootstrap.min.js"></script>
-  <script type="text/javascript" src="assets/js/plugins/chartjs.min.js"></script>
-  <script type="text/javascript" src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <script type="text/javascript" src="assets/js/plugins/bootstrap-notify.js"></script>
+    <!--   Core JS Files   -->
+    <script type="text/javascript" src="assets/js/core/popper.min.js"></script>
+    <script type="text/javascript" src="assets/js/core/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/chartjs.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/bootstrap-notify.js"></script>
 
-  <script type="text/javascript" src="assets/js/black-dashboard.min.js?v=1.0.0"></script>
-  <script type="text/javascript" src="assets/exodus/general.js"></script>
-  <script type="text/javascript" src="assets/exodus/init.js"></script>
-  <script type="text/javascript" src="assets/exodus/geocode.js"></script>
-  <script type="text/javascript" src="assets/exodus/ui_rgb.js"></script>
-</body>
+    <script type="text/javascript" src="assets/js/black-dashboard.min.js?v=1.0.0"></script>
+    <script type="text/javascript" src="assets/exodus/general.js"></script>
+    <script type="text/javascript" src="assets/exodus/init.js"></script>
+    <script type="text/javascript" src="assets/exodus/geocode.js"></script>
+    <script type="text/javascript" src="assets/exodus/ui_rgb.js"></script>
+  </body>
 
-</html>
+  </html>
