@@ -55,14 +55,14 @@
                 <div id="map"></div>
               </div>
               <div class="col-lg-3 col-sm-3">
-                <h4>Select satellite</h4>
+                <h4>Select Satellite</h4>
                 <select id="satellites" class="form-control">
                   <option value="44878">LANDSAT</option>
                 </select><br/>
-                <h4>Select dataset</h4>
+                <h4>Imagery Type</h4>
 
                 <select id="instruments" class="form-control">
-                  <option value="gls_all">Global Land Survey</option>
+                  <option value="gls_all">Low-Resolution</option>
                 </select><br/>
                 <h4>Schedule Pass </h4>
                 <table class="table">
@@ -73,7 +73,7 @@
                     <td>End Date:&nbsp;&nbsp; <input type="text" id="datepicker_end"></p></td>
                   </tr>
                 </table>
-                <button type="button" class="btn btn-info btn-lg button" data-toggle="modal" data-target="#myModal" onclick="request_pass_list()">Create Mission</button>
+                <button type="button" class="btn btn-info btn-lg button" data-toggle="modal" data-target="#myModal" onclick="request_pass_list()">Generate Mission</button>
               </div>
             </div>
           </div>
@@ -153,8 +153,8 @@
               </table>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Abort</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="launch_mission()">Launch!</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Quit</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="launch_mission()">Get config file</button>
             </div>
           </div>
         </div>

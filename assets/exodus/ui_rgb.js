@@ -189,14 +189,27 @@ function launch_mission()
   }
   var user = "demo_user";
   var email = "demo@email.com";
-      // Here be api call to server with new mission
-  var api_str_post = api_server +"webnova/v1/create_mission/";
+
+
+  //return a json file
+  mission_file = JSON.stringify(mission_data);
+  const a = document.createElement('a');
+  const type = name.split(".").pop();
+  a.href = URL.createObjectURL( new Blob([mission_file], { type:"application/json" }) );
+  var timestamp = Date.now();
+  a.download = "mission_config"+timestamp+".json";
+  a.click();
+  console.log("Clicked!");
+
+  //return mission_data.stringify();
+  // Here be api call to server with new mission
+  /* var api_str_post = api_server +"webnova/v1/create_mission/";
   $.post(api_str_post, {
     "mission_instance":JSON.stringify(mission_data),
     "user":user,
     "email":email
   }).done( function(data) {
-  });
+  }); */
 }
 
 $(document).ready(function () {
