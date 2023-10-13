@@ -1,0 +1,10 @@
+[
+    {"name":"ADS-B Monitoring", "icon":"/design_assets/basic_icons/adsb_airplane.png","description":""},
+    {"name":"AIS Monitoring", "icon":"/design_assets/basic_icons/ais_ship.png","description":""},
+    {"name":"Wildlife Detection", "icon":"/design_assets/icons_advanced/wildfire.png","description":""},
+    {"name":"Polution Monitoring", "icon":"/design_assets/icons_advanced/pollution.png","description":""},
+    {"name":"Object Detection", "icon":"/design_assets/icons_advanced/object_detection.png","description":""},
+    {"name":"Change Detection", "icon":"/design_assets/icons_advanced/change_detection.png","description":""},
+    {"name":"Traffic Analysis", "icon":"/design_assets/icons_advanced/traffic_analysis.png","description":""},
+    {"name":"Signal Processing", "icon":"/design_assets/basic_icons/sound.png","description":""}
+]
