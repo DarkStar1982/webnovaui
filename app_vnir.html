@@ -2,127 +2,144 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>WebNOVA Mission Dashboard</title>
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
-  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-  <!-- CSS Files -->
-  <link href="assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
-  <link href="assets/exodus/app_dash.css" rel="stylesheet" />
-  <link href="assets/exodus/demo.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" crossorigin="" />
-  <script type="text/javascript" src="assets/js/core/jquery.min.js"></script>
-  <script type="text/javascript" src="assets/exodus/ui_vnir.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" crossorigin=""></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>WebNOVA Mission Dashboard</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <link href="assets/exodus/app_dash.css" rel="stylesheet" />
+    <link href="assets/exodus/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" crossorigin="" />
+    <script type="text/javascript" src="assets/js/core/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/exodus/ui_vnir.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" crossorigin=""></script>
 </head>
 
 <body>
-  <div class="content header-lane">
-    <div class="row pl-5">
-      <div class="col-12 text-left ml-1 logo-col-row pl-5">
-        <a href="apps.html">
-          <img class="logo" src="assets/img/logo-white.png">
-          <h2>RGB Imager</h2>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="wrapper mt-5 mr-1 ml-1 apps-wrapper">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#config" role="tab" aria-controls="home"
-          aria-selected="true">Create</a>
-      </li>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="config" role="tabpanel" aria-labelledby="home-tab">
-        <div class="row map-row">
-          <div class="col-12">
-            <!-- DASHBOARD -->
-            <br />
-            <div class="row">
-              <div class="col-lg-8 col-sm-8 map-col">
-                <input class="form-control" type="text"  width="100px" id="search_bar"/><br/>
-                <div id="map"></div>
-              </div>
-              <div class="col-lg-3 col-sm-3">
-                <h4>Select the satellite</h4>
-                <select id="satellites" class="form-control">
-                  <option value="44878">TEST-SAT</option>
-                </select><br/>
-                <h4>Select instrument</h4>
-
-                <select id="instruments" class="form-control">
-                  <option value="1">RGB_IMAGER</option>
-                </select><br/>
-                <h4>Schedule Pass </h4>
-                <table class="table">
-                  <tr>
-                    <td>Start Date: <input type="text" id="datepicker_start"></p></td>
-                  </tr>
-                  <tr>
-                    <td>End Date:&nbsp;&nbsp; <input type="text" id="datepicker_end"></p></td>
-                  </tr>
-                </table>
-                <button type="button" class="btn btn-info btn-lg button" data-toggle="modal" data-target="#myModal" onclick="request_pass_list()">Create Mission</button>
-              </div>
+    <div class="content header-lane">
+        <div class="row pl-5">
+            <div class="col-12 text-left ml-1 logo-col-row pl-5">
+                <a href="apps.html">
+                    <img class="logo" src="assets/img/logo-white.png">
+                    <h2>RGB Imager</h2>
+                </a>
             </div>
-          </div>
         </div>
-
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Launch mission</h4>
-          </div>
-          <div class="modal-body">
-              <table class="table table-dark">
-                <tr>
-                  <td>Target Latitude</td><td><span id="target_lat">0.00</span></td>
-                </tr>
-                <tr>
-                  <td>Target Longitude</td><td><span id="target_lon">0.00</span></td>
-                </tr>
-              </table>
-              <h4 class="text-dark">Select available passes</h4>
-              <table class="table table-dark" >
-                <tr>
-                  <th class="text-white">Start Time</th><th class="text-white">End Time</th><th></th>
-                <tbody id="available_pass_list">
-                </tbody>
-                </tr>
-              </table>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Abort</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="launch_mission()">Launch!</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+    <div class="wrapper mt-5 mr-1 ml-1 apps-wrapper">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#config" role="tab"
+                    aria-controls="home" aria-selected="true">Create</a>
+            </li>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="config" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row map-row">
+                    <div class="col-12">
+                        <!-- DASHBOARD -->
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-8 col-sm-8 map-col">
+                                <input class="form-control" type="text" width="100px" id="search_bar" /><br />
+                                <div id="map"></div>
+                            </div>
+                            <div class="col-lg-3 col-sm-3">
+                                <h4>Select the satellite</h4>
+                                <select id="satellites" class="form-control">
+                                    <option value="44878">TEST-SAT</option>
+                                </select><br />
+                                <h4>Select instrument</h4>
+
+                                <select id="instruments" class="form-control">
+                                    <option value="1">RGB_IMAGER</option>
+                                </select><br />
+                                <h4>Schedule Pass </h4>
+                                <table class="table">
+                                    <tr>
+                                        <td>Start Date: <input type="text" id="datepicker_start"></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>End Date:&nbsp;&nbsp; <input type="text" id="datepicker_end"></p>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <button type="button" class="btn btn-info btn-lg button" data-toggle="modal"
+                                    data-target="#myModal" onclick="request_pass_list()">Create Mission</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Launch mission</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-dark">
+                                <tr>
+                                    <td>Target Latitude</td>
+                                    <td><span id="target_lat">0.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Target Longitude</td>
+                                    <td><span id="target_lon">0.00</span></td>
+                                </tr>
+                            </table>
+                            <h4 class="text-dark">Select available passes</h4>
+                            <table class="table table-dark">
+                                <tr>
+                                    <th class="text-white">Start Time</th>
+                                    <th class="text-white">End Time</th>
+                                    <th></th>
+                                    <tbody id="available_pass_list">
+                                    </tbody>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-lg-8 col-sm-8">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Abort</button>
+                                </div>
+                                <div class="col-lg-2 col-sm-2">
+                                    <label><strong>Cost: $552.34</strong></label>
+                                </div>
+                                <div class="col-lg-2 col-sm-2">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        onclick="launch_mission()">Purchase!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-  <!--   Core JS Files   -->
-  <script type="text/javascript" src="assets/js/core/popper.min.js"></script>
-  <script type="text/javascript" src="assets/js/core/bootstrap.min.js"></script>
-  <script type="text/javascript" src="assets/js/plugins/chartjs.min.js"></script>
-  <script type="text/javascript" src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <script type="text/javascript" src="assets/js/plugins/bootstrap-notify.js"></script>
+            <!--   Core JS Files   -->
+            <script type="text/javascript" src="assets/js/core/popper.min.js"></script>
+            <script type="text/javascript" src="assets/js/core/bootstrap.min.js"></script>
+            <script type="text/javascript" src="assets/js/plugins/chartjs.min.js"></script>
+            <script type="text/javascript" src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+            <script type="text/javascript" src="assets/js/plugins/bootstrap-notify.js"></script>
 
-  <script type="text/javascript" src="assets/js/black-dashboard.min.js?v=1.0.0"></script>
-  <script type="text/javascript" src="assets/exodus/general.js"></script>
-  <script type="text/javascript" src="assets/exodus/init.js"></script>
+            <script type="text/javascript" src="assets/js/black-dashboard.min.js?v=1.0.0"></script>
+            <script type="text/javascript" src="assets/exodus/general.js"></script>
+            <script type="text/javascript" src="assets/exodus/init.js"></script>
 </body>
 
 </html>
