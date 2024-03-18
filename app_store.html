@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>WebNOVA Mission Dashboard</title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+  <link href="assets/exodus/app_dash.css" rel="stylesheet" />
+
+  <link href="assets/exodus/demo.css" rel="stylesheet" />
+  <link href="assets/exodus/exodus.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <!-- <script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script> -->
+  <!-- <script type="text/javascript" src="node_modules/vue-router/dist/vue-router.min.js"></script> -->
+  <script type="text/javascript" src="assets/js/core/jquery.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+
+<body>
+  <div class="content header-lane">
+    <div class="row pl-5">
+      <div class="col-12 text-left ml-1 logo-col-row pl-5">
+        <a href="demo.html">
+          <img class="logo" src="assets/img/logo-white.png">
+          <h2>Apps in space</h2>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper mt-5 mr-1 ml-1 apps-wrapper">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="app-tab" data-toggle="tab" href="#custom_apps" role="tab" aria-controls="data"
+          aria-selected="false">Applications</a>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+      <!--div class="search-pane">
+        <div class="row">
+          <div class="col-lg-5">
+            <input type="search" class="form-control" placeholder="Search Apps" aria-label="Search Apps" aria-describedby="basic-addon2">
+          </div>
+        </div>
+      </div-->
+      <div class="tab-pane fade show" id="config" role="tabpanel" aria-labelledby="home-tab">
+        <div class="row dash-row">
+          <div class="col-12 app-dashboard text-center">
+            <!-- DASHBOARD -->
+
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade show" id="datum" role="tabpanel" aria-labelledby="data-tab">
+        <div class="row">
+          <div class="col-12 app-data text-center">
+            <table class="table" id="mission_list_table">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Target</th>
+                <th>Status</th>
+                <th>Date Created</th>
+                <th>Date Available</th>
+                <th>Download Link</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade show" id="admin_ui" role="tabpanel" aria-labelledby="admin-tab">
+        <div class="row">
+          <div class="col-12 app-data text-center">
+              <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card card-chart">
+                            <div class="card-header ">
+                                <div class="row">
+                                    <div class="col-sm-12 text-left">
+                                        <h5 class="card-category"></h5>
+                                        <h2 class="card-title">Trajectory</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="map-box-class" id="map_box">
+                                <!-- <div id="earth_map_img"></div> -->
+                                <img src="assets/img/world.jpg"/>
+"
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center">
+
+                        <div class="card telemetry">
+                            <div class="card-header">
+                              <h2 class="card-title">Telemetry</h2>
+                            </div>
+                            <div class="card-body" id="telemetry_box">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row" id="power_sect">
+                                          <table class="table">
+                                            <tr>
+                                              <td>Solar panel voltage<td/>
+                                                <td>
+                                                  <span style="color:green">12.5V</span>
+                                               </td>
+                                            </tr>
+                                            <tr>
+                                              <td>Power bus A voltage<td/>
+                                              <td><span style="color:green">11.5V</span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>Power bus B voltage<td/>
+                                              <td><span style="color:green">11.7V</span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>Battery cycles<td/>
+                                              <td><span style="color:yellow">310</span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>Battery charge<td/>
+                                              <td><span style="color:orange">23%</span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>Power Loss/Gain<td/>
+                                              <td><span style="color:red">-0.25A</span></td>
+                                            </tr>
+                                          </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row" id="thermal_sect">
+                                          <table class="table">
+                                            <tr>
+                                              <td>Chassis T<td/>
+                                              <td><span style="color:green">39.2C</span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>Solar Panel T<td/>
+                                              <td><span style="color:green">45.5C</span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>Battery T<td/>
+                                              <td><span style="color:green">31.7C</span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>CPU T<td/>
+                                              <td><span style="color:yellow">64.3C</span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>Cold side T<td/>
+                                              <td><span style="color:green">22.3C</span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>Hot side T<td/>
+                                              <td><span style="color:orange">48.5C</span></td>
+                                            </tr>
+                                          </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 text-center">
+                        <div class="card card-chart">
+                            <div class="card-header ">
+                                <div class="row">
+                                    <div class="col-sm-12 text-left">
+                                        <h2 class="card-title">Instrument FOV</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="map-box-class" id="map_box2">
+                                <!-- <div id="earth_map_img"></div> -->
+                                <img src="assets/img/toronto.jpg"/>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center">
+
+                        <div class="card eventlog">
+                            <div class="card-header">
+                                <h2 class="card-title">ADCS</h2>
+                            </div>
+
+                            <div class="map-box-class" id="map_box">
+                                <!-- <div id="earth_map_img"></div> -->
+                                <img src="assets/img/adcs_cap.png"/>
+
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+          </div>
+      </div>
+    </div>
+    <div class="tab-pane fade show active" id="custom_apps" role="tabpanel" aria-labelledby="app-tab">
+      <div class="row dash-row">
+          <div class="col-12 app-dashboard text-center">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="card" style="width: 14rem;">
+                    <div class="centre"><img class="card-img" src="design_assets/basic_icons/camera.png" style="width:50%; margin:10px" alt="RGB Imaging"></div>
+                    <div class="card-body">
+                      <a href="user_ui.html" class="btn btn-primary">RGB <br />Imager</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="card" style="width: 14rem;">
+                    <div class="centre"><img class="card-img" src="design_assets/basic_icons/multispectral_c.png" style="width:50%; margin:10px" alt="Multispectral Imaging"></div>
+                    <div class="card-body">
+                      <a href="app_vnir.html" class="btn btn-primary">Multispectral <br/>Imager</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="card" style="width: 14rem;">
+                    <div class="centre"><img class="card-img" src="design_assets/basic_icons/hyperspectral_c.png" style="width:50%; margin:10px" alt="Multispectral Imaging"></div>
+                    <div class="card-body">
+                      <a href="app_hper.html" class="btn btn-primary">Hyperspectral Imager</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="card" style="width: 14rem;">
+                    <div class="centre"><img class="card-img" src="design_assets/basic_icons/radar.png" style="width:50%; margin:10px" alt="Multispectral Imaging"></div>
+                    <div class="card-body">
+                      <!--p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p-->
+                      <a href="app_sar.html" class="btn btn-primary">Synthetic Aperture Radar</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+              <div class="col-lg-3">
+                <div class="card" style="width: 14rem;">
+                  <div class="centre"><img class="card-img" src="design_assets/basic_icons/adsb_airplane.png" style="width:50%; margin:10px" alt="Multispectral Imaging"></div>
+                  <div class="card-body">
+                    <!--p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p-->
+                    <a href="#" class="btn btn-primary">ADS-B monitoring</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <div class="card" style="width: 14rem;">
+                  <div class="centre"><img class="card-img" src="design_assets/basic_icons/ais_ship.png" style="width:50%; margin:10px" alt="RGB Imaging"></div>
+                  <div class="card-body">
+                    <!--p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p-->
+                    <a href="#" class="btn btn-primary">AIS <br />Monitoring</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <div class="card" style="width: 14rem;">
+                  <div class="centre"><img class="card-img" src="design_assets/icons_advanced/wildfire.png" style="width:50%; margin:10px" alt="Multispectral Imaging"></div>
+                  <div class="card-body">
+                    <!--p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p-->
+                    <a href="#" class="btn btn-primary">Wildfire Detection</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <div class="card" style="width: 14rem;">
+                  <div class="centre"><img class="card-img" src="design_assets/icons_advanced/pollution.png" style="width:50%; margin:10px" alt="Multispectral Imaging"></div>
+                  <div class="card-body">
+                    <!--p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p-->
+                    <a href="#" class="btn btn-primary">Pollution Monitoring</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-3">
+                <div class="card" style="width: 14rem;">
+                  <div class="centre"><img class="card-img" src="design_assets/icons_advanced/object_detection.png" style="width:50%; margin:10px" alt="Multispectral Imaging"></div>
+                  <div class="card-body">
+                    <!--p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p-->
+                    <a href="#" class="btn btn-primary">Object Detection</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <div class="card" style="width: 14rem;">
+                  <div class="centre"><img class="card-img" src="design_assets/icons_advanced/change_detection.png" style="width:50%; margin:10px" alt="RGB Imaging"></div>
+                  <div class="card-body">
+                    <!--p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p-->
+                    <a href="#" class="btn btn-primary">Change Detection</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <div class="card" style="width: 14rem;">
+                  <div class="centre"><img class="card-img" src="design_assets/icons_advanced/traffic_analysis.png" style="width:50%; margin:10px" alt="Multispectral Imaging"></div>
+                  <div class="card-body">
+                    <!--p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p-->
+                    <a href="#" class="btn btn-primary">Traffic <br />Analysis</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <div class="card" style="width: 14rem;">
+                  <div class="centre"><img class="card-img" src="design_assets/basic_icons/sound.png" style="width:50%; margin:10px" alt="Multispectral Imaging"></div>
+                  <div class="card-body">
+                    <!--p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p-->
+                    <a href="custom_app.html" class="btn btn-primary">Signal <br />Processing</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!--   Core JS Files   -->
+  <script type="text/javascript" src="assets/js/core/popper.min.js"></script>
+  <script type="text/javascript" src="assets/js/core/bootstrap.min.js"></script>
+  <script type="text/javascript" src="assets/js/plugins/chartjs.min.js"></script>
+  <script type="text/javascript" src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <script type="text/javascript" src="assets/js/plugins/bootstrap-notify.js"></script>
+
+  <script type="text/javascript" src="assets/js/black-dashboard.min.js?v=1.0.0"></script>
+  <script type="text/javascript" src="assets/exodus/general.js"></script>
+  <script type="text/javascript" src="assets/exodus/init.js"></script>
+  <script type="text/javascript" src="assets/exodus/dashboard.js"></script>
+
+</body>
+
+</html>
