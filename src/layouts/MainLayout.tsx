@@ -45,11 +45,11 @@ const MainLayout = () => {
     <>
     <ExodusEarthBanner/>
     <Container fluid className="px-0">
-      {(navbarPosition === 'vertical' || navbarPosition === 'combo') && (
+      {(navbarPosition === 'vertical' || navbarPosition === 'combo') && (pathname != "/") && (
         <NavbarVertical />
       )}
-      {navbarPosition === 'vertical' && <ExodusNavbarTopDefault />}
-      {(navbarPosition === 'horizontal' || navbarPosition === 'combo') && (
+      {navbarPosition === 'vertical' && (pathname == "/") && <ExodusNavbarTopDefault />}
+      {(navbarPosition === 'horizontal' || navbarPosition === 'combo') && (pathname != "/") &&  (
         <ExodusNavbarTopHorizontal />
       )}
       {navbarPosition === 'dual' && <NavbarDual />}
