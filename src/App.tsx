@@ -11,7 +11,9 @@ const App = () => {
   const { pathname } = useLocation();
 
   const {
-    settingsPanelConfig: { showSettingPanelButton },
+    settingsPanelConfig: { 
+      // showSettingPanelButton 
+    },
     setSettingsPanelConfig
   } = useSettingsPanelContext();
 
