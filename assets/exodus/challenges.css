@@ -1,0 +1,11 @@
+table#challenge-list tr td
+{
+    width: 200px!important;
+}
+table#challenge-list tr:hover{
+    background-color: #3b3b5e;
+}
+.challenge-icon{
+    width:9%; 
+    margin:15px;
+}

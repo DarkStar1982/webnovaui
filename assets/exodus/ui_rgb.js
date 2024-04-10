@@ -4,16 +4,64 @@ var api_server = "http://"+hostname;
 var fov_polygons = [];
 var local_cache = {};
 
-if (hostname = 'localhost') api_server = api_server + ':8000/';
-else api_server = api_server + '/';
+//  use these after the lookup
+var selectedLat = 0, selectedLng = 0;
+
+if (hostname = 'localhost') {
+  api_server = api_server + ':8000/';
+} else {
+  api_server = api_server + '/';
+}
+
+function load_missions()
+{
+  var api_missions_url = api_server +"webnova/v1/mission_list/";
+  $.get(api_missions_url, function(data){
+    var mission_list = JSON.parse(data);
+    $('#mission_list_table tbody').empty();
+    var tableBody = $('#mission_list_table tbody');
+    // Iterate over each object in the data list
+    $.each(mission_list, function(index, object) {
+      // Create a new row element
+      var row = $('<tr>');
+      // Add a cell for each property of the object
+      $('<td>').html(object.id).appendTo(row);
+      $('<td>').html(object.type).appendTo(row);
+      $('<td>').html(object.target).appendTo(row);
+      $('<td>').html(object.status).appendTo(row);
+      $('<td>').html(object.start_date).appendTo(row);
+      $('<td>').html(object.date_available).appendTo(row);
+      if (object.download_link=='Not available yet')
+      {
+        $('<td>').html(object.download_link).appendTo(row);
+      }
+      else {
+        $('<td>').html('<button class=btn><a href="'+object.download_link+'">Download</a></button>').appendTo(row);
+      }
+      // Append the row to the table body
+      row.appendTo(tableBody);
+    })
+  });
+}
+
 
 function set_map()
 {
-  var input_str = $("#search_bar").val();
-  var lat_val = input_str.split(",")[0].trim();
-  var lon_val = input_str.split(",")[1].trim();
+  let coord =  $("#search_bar").val().split(",");
+  var lat_val = coord[0] ? coord[0].trim() : 0;
+  var lon_val = coord[1] ? coord[1].trim() : 0;
+  //  set as global vars
+  selectedLat = lat_val;
+  selectedLng = lon_val;
   var zoom_l = map.getZoom();
   map.panTo([lat_val, lon_val], zoom_l);
+  redraw_fov_polygon();
+}
+
+function set_map_location(lat,lng)
+{
+  var zoom_l = map.getZoom();
+  map.panTo([lat, lng], zoom_l);
   redraw_fov_polygon();
 }
 
@@ -63,7 +111,7 @@ function redraw_fov_polygon()
             [south_lat, east_lon],
             [south_lat, west_lon],
             [north_lat, west_lon]
-            ]).addTo(map);
+          ]).addTo(map);
           fov_polygons.push(fov_polygon);
               //draw rectangle
         });
@@ -141,20 +189,33 @@ function launch_mission()
   }
   var user = "demo_user";
   var email = "demo@email.com";
-      // Here be api call to server with new mission
-  var api_str_post = api_server +"webnova/v1/create_mission/";
+
+
+  //return a json file
+  mission_file = JSON.stringify(mission_data);
+  const a = document.createElement('a');
+  const type = name.split(".").pop();
+  a.href = URL.createObjectURL( new Blob([mission_file], { type:"application/json" }) );
+  var timestamp = Date.now();
+  a.download = "mission_config"+timestamp+".json";
+  a.click();
+  console.log("Clicked!");
+
+  //return mission_data.stringify();
+  // Here be api call to server with new mission
+  /* var api_str_post = api_server +"webnova/v1/create_mission/";
   $.post(api_str_post, {
     "mission_instance":JSON.stringify(mission_data),
     "user":user,
     "email":email
   }).done( function(data) {
-  });
+  }); */
 }
 
 $(document).ready(function () {
   $("#dialog_text").hide();
   map = L.map('map').setView([46.19, 30.35], 10);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
@@ -165,15 +226,27 @@ $(document).ready(function () {
   $("#datepicker_start").datepicker('setDate', 'today');
 
   $("#datepicker_end").datepicker();
-
-  var search_bar = document.getElementById("search_bar");
-  search_bar.addEventListener("keypress", function(event) {
-        // If the user presses the "Enter" key on the keyboard
-    if (event.key === "Enter") {
-          // Cancel the default action, if needed
+  
+  $("#search_bar").autocomplete({
+    source: function(request, response) {
+      // https://developers.arcgis.com/esri-leaflet/samples/geocoding-control/
+      $.ajax( {
+        url: arcgis_url+request.term,
+        dataType: "json",
+        success: function(data) {
+          let dataResp = [];
+          $.each(data.candidates, function(item, val) {
+            dataResp.push({label:val.address, value: val.location});
+          });
+          response(dataResp.slice(0, 10));
+        }
+      } );
+    },
+    minLength: 2,
+    select: function(event, ui) {
       event.preventDefault();
-      set_map();
+      set_map_location(ui.item.value.y, ui.item.value.x);
+      $("#search_bar").val(ui.item.label);
     }
   });
-
 });

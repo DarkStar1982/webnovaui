@@ -1,0 +1,50 @@
+.root {
+  /* height: 100vh;
+  width: 100vw; */
+  flex-direction: column;
+  justify-content: left;
+  /* align-items: flex-start; */
+  gap: 8px;
+  padding: 9.5px 16px;
+  border-radius: 6px;
+  background-color: #1a1724;
+  box-shadow: inset 0px 1px 0px #31314a;
+}
+.placeholderCaption {
+  width: 64px;
+  height: min-content;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.caption {
+  color: #9f9fbc;
+  font-size: 10.24px;
+  line-height: 120%;
+  font-weight: bold;
+  font-family: Nunito Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.label {
+  color: #fff;
+  font-size: 12.8px;
+  line-height: 120%;
+  font-weight: 600;
+  font-family: Nunito Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: row;
+}
+
+
+div[class^=InputDark_StateFilledCaptionIn]{
+  min-width: auto;
+  overflow-wrap: normal;
+}

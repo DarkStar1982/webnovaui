@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>WebNOVA Mission Dashboard</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <link href="assets/exodus/app_dash.css" rel="stylesheet" />
+
+    <link href="assets/exodus/demo.css" rel="stylesheet" />
+    <link href="assets/exodus/exodus.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <!-- <script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script> -->
+    <!-- <script type="text/javascript" src="node_modules/vue-router/dist/vue-router.min.js"></script> -->
+    <script type="text/javascript" src="assets/js/core/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link href="assets/exodus/challenges.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="content header-lane">
+        <div class="row pl-5">
+            <div class="col-12 text-left ml-1 logo-col-row pl-5">
+                <a href="demo.html">
+                    <img class="logo" src="assets/img/logo-white.png">
+                    <h2>WebNOVA II Hackathon</h2>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper mt-5 mr-1 ml-1 apps-wrapper">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="app-tab" data-toggle="tab" href="#custom_apps" role="tab"
+                    aria-controls="data" aria-selected="false">Challenges</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="custom_apps" role="tabpanel" aria-labelledby="app-tab">
+                <div class="row dash-row table">
+                    <div class="col-12 app-dashboard text-left">
+                        <table class="table" id="challenge-list">
+                            <thead>
+                                <td></td>
+                                <td>Name</td>
+                                <td>Data Type</td>
+                                <td>Points</td>
+                                <td>Description</td>
+                                <td></td>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img class="challenge-icon" src="design_assets/basic_icons/adsb_airplane.png"
+                                            alt="ADS-B monitoring"></td>
+                                    <td>ADS-B Monitoring</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Mission</td>
+                                    <td><a href="/app_rgb.html" class="btn btn-primary ml-0">Start</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img class="challenge-icon" src="design_assets/basic_icons/ais_ship.png"
+                                            alt="AIS monitoring"></td>
+                                    <td>AIS Monitoring</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Mission</td>
+                                    <td><a href="/app_rgb.html" class="btn btn-primary ml-0">Start</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img class="challenge-icon" src="design_assets/icons_advanced/wildfire.png"
+                                            alt="Wildlife Detection"></td>
+                                    <td>Wildlife Detection</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Mission</td>
+                                    <td><a href="/app_rgb.html" class="btn btn-primary ml-0">Start</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img class="challenge-icon" src="design_assets/icons_advanced/pollution.png"
+                                            alt="Polution Monitoring"></td>
+                                    <td>Polution Monitoring</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Mission</td>
+                                    <td><a href="/app_rgb.html" class="btn btn-primary ml-0">Start</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img class="challenge-icon"
+                                            src="design_assets/icons_advanced/object_detection.png"
+                                            alt="Object Detection"></td>
+                                    <td>Object Detection</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Mission</td>
+                                    <td><a href="/app_rgb.html" class="btn btn-primary ml-0">Start</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img class="challenge-icon"
+                                            src="design_assets/icons_advanced/change_detection.png"
+                                            alt="Change Detection"></td>
+                                    <td>Change Detection</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Mission</td>
+                                    <td><a href="/app_rgb.html" class="btn btn-primary ml-0">Start</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img class="challenge-icon"
+                                            src="design_assets/icons_advanced/traffic_analysis.png"
+                                            alt="Traffic Analysis"></td>
+                                    <td>Traffic Analysis</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Mission</td>
+                                    <td><a href="/app_rgb.html" class="btn btn-primary ml-0">Start</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img class="challenge-icon" src="design_assets/basic_icons/sound.png"
+                                            alt="Signal Processing"></td>
+                                    <td>Signal Processing</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Mission</td>
+                                    <td><a href="/app_rgb.html" class="btn btn-primary ml-0">Start</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="https://exodusorbitals.com/" class="nav-link">
+                            Exodus Orbitals
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://exodusorbitals.com/team.html" class="nav-link">
+                            About Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://blog.exodusorbitals.com/" class="nav-link">
+                            Blog
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./terms.html" class="nav-link">
+                            Terms and Conditions
+                        </a>
+                    </li>
+                </ul>
+                <div class="copyright">
+                    &copy; <span id="footer-year"></span>
+                    <a href="javascript:void(0)" target="_blank">Exodus Orbitals</a>.
+                </div>
+            </div>
+        </footer>
+
+        <!--   Core JS Files   -->
+        <script type="text/javascript" src="assets/js/core/popper.min.js"></script>
+        <script type="text/javascript" src="assets/js/core/bootstrap.min.js"></script>
+        <script type="text/javascript" src="assets/js/plugins/chartjs.min.js"></script>
+        <script type="text/javascript" src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+        <script type="text/javascript" src="assets/js/plugins/bootstrap-notify.js"></script>
+
+        <script type="text/javascript" src="assets/js/black-dashboard.min.js?v=1.0.0"></script>
+        <script type="text/javascript" src="assets/exodus/general.js"></script>
+        <script type="text/javascript" src="assets/exodus/init.js"></script>
+        <script type="text/javascript" src="assets/exodus/dashboard.js"></script>
+        <script type="text/javascript" src="assets/exodus/challenges.js"></script>
+
+</body>
+
+</html>
