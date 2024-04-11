@@ -19,12 +19,14 @@ interface Props {
 /* @figmaId 17248:26834 */
 export const ChallengeItemWrapper: FC<Props> = memo(function Wrapper(props = {}) {
   const handleClick = () => {
-    let url = "/pages/mission/" + props.challengeId;
-    window.location.href = url;
 
+    let cid = (props.challengeId) ? props.challengeId -1 : 0;
+    let url = "/pages/mission/" + cid;
+    window.location.href = url;
   }
+
   return (
-    <div className={`${resets.clapyResets} ${classes.root} challenge`}>
+    <div className={`${resets.clapyResets} ${classes.root} challenge dark card mb-3`}>
       <div className={classes.content3}>
         <div className={classes.cardBody}>
           <div className={classes.cardTitle}>

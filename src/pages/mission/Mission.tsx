@@ -1,29 +1,103 @@
-import { useEffect, useState } from 'react';
-import { Col, Row, Form, Table, Button } from 'react-bootstrap';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect, useRef } from 'react';
+import { useLocation } from "react-router-dom";
+import { Col, Row, Form, Table, Button, Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import Dropdown from 'react-bootstrap/Dropdown';
-import { InputDark_StateFilledCaptionIn } from 'components/webnova/Wrapper/InputDark_StateFilledCaptionIn/InputDark_StateFilledCaptionIn';
 import { Map } from './Map';
 import missionStyles from './MissionScreen.module.css';
-import { ChallengeItems, challenges } from 'data/challenges';
-import { useSearchParams, useLocation } from "react-router-dom";
+import { challenges } from 'data/challenges';
+import { hours } from 'data/hours';
 
 const Mission = () => {
-    const options = [
-        'one', 'two', 'three'
-    ];
 
     const location = useLocation();
-    const { hash, pathname, search } = location;
+    const { pathname } = location;
+    const initialized = useRef(false);
+    const selectedSatellite = useRef("SATELLITE");
+    const selectedInstrument = useRef("IMAGER");
+    const noradId = useRef(0);
+    const instrumentId = useRef(0);
 
-    let id = pathname.substring(pathname.lastIndexOf('/') + 1)
+    const startDateSelected = useRef('START DATE');
+    const endDateSelected = useRef('END DATE');
+    const startHourSelected = useRef('START TIME');
+    const endHourSelected = useRef('END TIME');
 
-    let bgButtonColor = { backgroundColor: "#1A1724", border: "1px #373E53", marginBottom: "2vh", width: "100%" };
-    const defaultOption = options[0];
-    
-    let challenge = challenges[Number(id)]
 
-    
+
+    const [satellites, setSatelliteList] = useState([]);
+    const [instruments, setInstrumentList] = useState([]);
+
+    const [startDate, setStartDate] = useState('START DATE');
+    const [endDate, setEndDate] = useState('END DATE');
+
+    const [startHour, setStartHour] = useState('START TIME');
+    const [endHour, setEndHour] = useState('END TIME');
+
+    const id = pathname.substring(pathname.lastIndexOf('/') + 1)
+    const challenge = challenges[Number(id)]
+
+    const fetchSats = async () => {
+        const satData = await fetch(process.env.REACT_APP_API_URL + 'satellites');
+        const satDataJson = await satData.json();
+        setSatelliteList(satDataJson);
+    }
+
+    const fetchInstruments = async (noradId: number) => {
+        const satData = await fetch(process.env.REACT_APP_API_URL + 'instruments?norad_id=' + noradId);
+        const satDataJson = await satData.json();
+        setInstrumentList(satDataJson[0].instruments);
+    }
+
+    const fetchTimesOnTarget = async () => {
+        const satData = await fetch(process.env.REACT_APP_API_URL +
+            'times_on_target?norad_id=' + noradId.current +
+            '&instrument_id=' + instrumentId.current+
+            '&'
+        );
+        const satDataJson = await satData.json();
+        setInstrumentList(satDataJson[0].instruments);
+    }
+
+    useEffect(() => {
+        if (!initialized.current) {
+            initialized.current = true;
+            fetchSats();
+        }
+    }, []);
+
+    const clickAndSelectSatelitte = (noradIdSelected: number, name: string) => {
+        fetchInstruments(noradIdSelected);
+        noradId.current = noradIdSelected;
+        selectedSatellite.current = name;
+    }
+
+    const clickAndSelectInstrument = (instrumentIdSat: number, instrumentName: string) => {
+        selectedInstrument.current = instrumentName;
+        instrumentId.current = instrumentIdSat;
+    }
+
+    const clickAndSelectStartDate = (date: string) => {
+        setStartDate(date);
+        startDateSelected.current = date;
+    }
+
+    const clickAndSelectEndDate = (date: string) => {
+        setEndDate(date);
+        endDateSelected.current = date;
+    }
+
+    const clickAndSelectStartHour = (hour: string) => {
+        setStartHour(hour);
+        startHourSelected.current = hour;
+    }
+
+    const clickAndSelectEndHour = (hour: string) => {
+        setEndHour(hour);
+        endHourSelected.current = hour;
+    }
+
+
     return (
         <>
             <div className="pb-1 missionContainer" style={{ marginLeft: "-2vw" }}>
@@ -33,7 +107,6 @@ const Mission = () => {
                             <Col xs={12} xxl={6}>
                                 <div>
                                     <h2 className="mb-2">{challenge.name}</h2>
-
                                 </div>
                             </Col>
                         </Row>
@@ -41,24 +114,31 @@ const Mission = () => {
                             <Col xs={6} xxl={6}>
                                 <label htmlFor="landsat">Satellite</label>
                                 <Dropdown>
-                                    <Dropdown.Toggle variant="success" id="landsat" style={bgButtonColor}>
-                                        LANDSAT
+                                    <Dropdown.Toggle variant="success" id="landsat" className={`${missionStyles.dropDown}`}>
+                                        {selectedSatellite.current}
                                     </Dropdown.Toggle>
-
                                     <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1">LANDSAT</Dropdown.Item>
+                                        {satellites.map((satellite: any) =>
+                                            <Dropdown.Item href="#" key={satellite.norad_id} onClick={(e) => clickAndSelectSatelitte(satellite.norad_id, satellite.name)}>
+                                                {satellite && satellite.name}
+                                            </Dropdown.Item>
+                                        )}
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Col>
                             <Col xs={6} xxl={6}>
                                 <label htmlFor="imagery">Imagery Type</label>
                                 <Dropdown>
-                                    <Dropdown.Toggle variant="success" id="imagery" style={bgButtonColor}>
-                                        LOW RESOLUTION
+                                    <Dropdown.Toggle variant="success" id="imagery" className={`${missionStyles.dropDown}`}>
+                                        {selectedInstrument.current}
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1">LOW RESOLUTION</Dropdown.Item>
+                                        {instruments.map((instrument: any) =>
+                                            <Dropdown.Item href="#" key={instrument.id + '_' + instrument.d} onClick={(e) => clickAndSelectInstrument(instrument.id, instrument.type)}>
+                                                {instrument && instrument.type}
+                                            </Dropdown.Item>
+                                        )}
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Col>
@@ -69,38 +149,42 @@ const Mission = () => {
                             </Col>
                         </Row>
                     </Col>
-                    <Col xs={6} xxl={6} style={{paddingTop: "2vh"}}>
+                    <Col xs={6} xxl={6} style={{ paddingTop: "2vh" }}>
                         <Row className="missionDetails">
                             <Col xs={3} xxl={3}>
                                 <label htmlFor={"dateStart"}>Mission start and end</label>
-                                <Form.Control type="date" />
+                                <Form.Control type="date" value={startDate} onChange={(e) => clickAndSelectStartDate(e.target.value)} />
                             </Col>
                             <Col xs={3} xxl={3}>
-                                <Form.Control type="date" style={{ marginTop: "2vh" }} />
+                                <Form.Control type="date" style={{ marginTop: "2vh" }} value={endDate} onChange={(e) => clickAndSelectEndDate(e.target.value)} />
                             </Col>
                             <Col xs={3} xxl={3}>
                                 <Dropdown style={{ marginTop: "2vh" }}>
-                                    <Dropdown.Toggle variant="success" id="landsat" style={bgButtonColor}>
-                                        Action
+                                    <Dropdown.Toggle variant="success" id="landsat" className={`${missionStyles.dropDown}`}>
+                                        {startHourSelected.current}
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                        {hours.map((hour:string) =>
+                                            <Dropdown.Item href="#" key={"startHour-" + hour} onClick={(e) => clickAndSelectStartHour(hour) } >
+                                                {hour}
+                                            </Dropdown.Item>
+                                        )}
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Col>
                             <Col xs={3} xxl={3}>
                                 <Dropdown style={{ marginTop: "2vh" }}>
-                                    <Dropdown.Toggle variant="success" id="landsat" style={bgButtonColor}>
-                                        TIME
+                                    <Dropdown.Toggle variant="success" id="landsat" className={`${missionStyles.dropDown}`}>
+                                        {endHourSelected.current}
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                        {hours.map((hour:string) =>
+                                            <Dropdown.Item href="#" key={"endHour-" + hour} onClick={(e) => clickAndSelectEndHour(hour) }>
+                                                {hour}
+                                            </Dropdown.Item>
+                                        )}
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Col>

@@ -41,9 +41,16 @@ button#imagery {
 }
 
 .configureMissionButton {
-    background-color: #472f88;
+    background-color: #472f88!important;
 }
 
 .configureMissionButton:hover {
-    background-color: #593bab;
+    background-color: #593bab!important;
+}
+
+.dropDown {
+    background-color: #1A1724!important;
+    border: 1px #373E53!important;
+    margin-bottom: 2vh!important;
+    width: 100%!important;
 }
