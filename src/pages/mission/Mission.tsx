@@ -2,11 +2,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, Link } from "react-router-dom";
 import { Col, Row, Form, Table, Button, Dropdown } from 'react-bootstrap';
+import { saveAs } from 'file-saver';
 import 'bootstrap/dist/css/bootstrap.css';
 import { ExodusMap } from './ExodusMap';
 import { challenges } from 'data/challenges';
 import { hours } from 'data/hours';
 import missionStyles from './MissionScreen.module.css';
+import { ConfigureMission } from 'types/ConfigureMission';
 
 const Mission = () => {
 
@@ -48,7 +50,6 @@ const Mission = () => {
 
     const id = pathname.substring(pathname.lastIndexOf('/') + 1)
     const challenge = challenges[Number(id)]
-
 
     const getDefaultDate = () => {
         const today = new Date();
@@ -93,17 +94,21 @@ const Mission = () => {
     }
 
     const fetchTimesOnTarget = async () => {
-        const satData = await fetch(process.env.REACT_APP_API_URL +
-            'times_on_target?norad_id=' + noradId.current +
-            '&instrument_id=' + instrumentId.current +
-            '&net=' + startDateSelected.current + ' ' + startHourSelected.current + ":00" +
-            '&nlt=' + endDateSelected.current + ' ' + endHourSelected.current + ":00" +
-            '&lat=' + latSelected.current +
-            '&lng=' + lngSelected.current
-        );
-        const satDataJson = await satData.json();
-        console.log(satDataJson.target_passes);
-        timesOnTarget.current = satDataJson.target_passes;
+        try {
+            const satData = await fetch(process.env.REACT_APP_API_URL +
+                'times_on_target?norad_id=' + noradId.current +
+                '&instrument_id=' + instrumentId.current +
+                '&net=' + startDateSelected.current + ' ' + startHourSelected.current + ":00" +
+                '&nlt=' + endDateSelected.current + ' ' + endHourSelected.current + ":00" +
+                '&lat=' + latSelected.current +
+                '&lng=' + lngSelected.current
+            );
+            const satDataJson = await satData.json();
+    
+            timesOnTarget.current = satDataJson.target_passes;
+        } catch (e)  {
+            console.log(e)
+        }
     }
 
     const geoLookup = async (term: string) => {
@@ -170,6 +175,7 @@ const Mission = () => {
     const adjustDateMinusOne = (dateVal: string, dateVAR: any) => {
 
     }
+
     const clickAndSelectStartDate = (date: string) => {
         setStartDate(date);
         startDateSelected.current = date;
@@ -189,6 +195,23 @@ const Mission = () => {
         setEndHour(hour);
         endHourSelected.current = hour;
         fetchTimesOnTarget();
+    }
+
+    const configureMission = () => {
+        let passes = timesOnTargetSelected.current.split(",");
+
+        let configureMissionData: ConfigureMission = {
+            satellite: noradId.current,
+            instrument: instrumentId.current.toString(),
+            loc_lat: latSelected.current,
+            loc_lon: lngSelected.current.toString(),
+            start_date: startDateSelected.current,
+            mission_type: "RGB",
+            description: challenge.name,
+            passes: [passes]
+        };
+        const blob = new Blob([JSON.stringify(configureMissionData)], { type: "text/plain;charset=utf-8" });
+        saveAs(blob, "configureMission.json");
     }
 
     return (
@@ -307,7 +330,6 @@ const Mission = () => {
                                             <th>START TIME</th>
                                             <th>END TIME</th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                 </Table>
@@ -319,6 +341,7 @@ const Mission = () => {
                                                 <td>{times[1]}</td>
                                                 <td>
                                                     <Form.Check // prettier-ignore
+                                                        className={missionStyles.passTimeCheckbox}
                                                         key={Math.random()}
                                                         type="checkbox"
                                                         onClick={(e) => {
@@ -328,10 +351,10 @@ const Mission = () => {
                                                 </td>
                                             </tr>);
                                         })}
-                                        {timesOnTarget.current.length < 1 &&
+                                        {!timesOnTarget.current &&
                                             <tr>
                                                 <td></td>
-                                                <td>Please try a different time range.</td>
+                                                <td>Please select a valid time range.</td>
                                                 <td></td>
                                             </tr>
                                         }
@@ -339,7 +362,7 @@ const Mission = () => {
                                 </Table>
                                 <Row style={{ paddingBottom: "3vh" }}>
                                     <Col xs={3} xxl={3}>
-                                        <Button size="lg" className={`${missionStyles.configureMissionButton}`}>Configure Mission</Button>
+                                        <Button size="lg" className={`${missionStyles.configureMissionButton}`} onClick={configureMission}>Configure Mission</Button>
                                     </Col>
                                     <Col xs={9} xxl={9}>
                                         Then, add your code to the template, and publish your solution via Docker. The last active deployment is your final solution.
