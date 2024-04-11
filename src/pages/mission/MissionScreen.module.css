@@ -54,3 +54,13 @@ button#imagery {
     margin-bottom: 2vh!important;
     width: 100%!important;
 }
+
+.mapSearch {
+    z-index: 2000;
+}
+
+.mapSearchAutocomplete {
+    display: none;
+    width: 100%;
+    height: 3vh;
+}

@@ -1,20 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Col, Row, Form, Table, Button, Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Map } from './Map';
-import missionStyles from './MissionScreen.module.css';
 import { challenges } from 'data/challenges';
 import { hours } from 'data/hours';
+import "leaflet/dist/leaflet.css";
+import missionStyles from './MissionScreen.module.css';
 
+
+interface Geo {
+    address: string;
+    lat: number;
+    lng: number;
+}
 const Mission = () => {
 
     const location = useLocation();
     const { pathname } = location;
     const initialized = useRef(false);
     const selectedSatellite = useRef("SATELLITE");
-    const selectedInstrument = useRef("IMAGER");
+    const selectedInstrument = useRef("SENSOR");
     const noradId = useRef(0);
     const instrumentId = useRef(0);
 
@@ -23,10 +30,10 @@ const Mission = () => {
     const startHourSelected = useRef('START TIME');
     const endHourSelected = useRef('END TIME');
 
-
-
     const [satellites, setSatelliteList] = useState([]);
     const [instruments, setInstrumentList] = useState([]);
+
+    const [theInstrument, setTheInstrument] = useState("SENSOR");
 
     const [startDate, setStartDate] = useState('START DATE');
     const [endDate, setEndDate] = useState('END DATE');
@@ -34,8 +41,33 @@ const Mission = () => {
     const [startHour, setStartHour] = useState('START TIME');
     const [endHour, setEndHour] = useState('END TIME');
 
+    const [lat, setLat] = useState(-79.6);
+    const [lng, setLng] = useState(43.7);
+    const [locationName, setLocationName] = useState("Toronto");
+
+    const [coordinates, setCoordinates] = useState([]);
+    const [geoResults, setGeoResults] = useState(Array<any>);
+
     const id = pathname.substring(pathname.lastIndexOf('/') + 1)
     const challenge = challenges[Number(id)]
+
+    const getDefaultDate = () => {
+        const today = new Date();
+
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1;
+        let d = dd.toString();
+        let m = mm.toString();
+        if (dd < 10) {
+            d = '0' + dd;
+        }
+        if (mm < 10) {
+            m = '0' + mm;
+        }
+
+        const defaultDate = today.getFullYear() + "-" + m + "-" + d;
+        return defaultDate;
+    }
 
     const fetchSats = async () => {
         const satData = await fetch(process.env.REACT_APP_API_URL + 'satellites');
@@ -52,31 +84,56 @@ const Mission = () => {
     const fetchTimesOnTarget = async () => {
         const satData = await fetch(process.env.REACT_APP_API_URL +
             'times_on_target?norad_id=' + noradId.current +
-            '&instrument_id=' + instrumentId.current+
-            '&net='+startDateSelected.current+
-            '&nlt='+endDateSelected.current+
-            '&lat='+
-            '&lng='
+            '&instrument_id=' + instrumentId.current +
+            '&net=' + startDateSelected.current +
+            '&nlt=' + endDateSelected.current +
+            '&lat=' + lat +
+            '&lng=' + lng
         );
         const satDataJson = await satData.json();
         setInstrumentList(satDataJson[0].instruments);
+    }
+
+    const geoLookup = async (term: string) => {
+        const url = process.env.REACT_APP_ARCGIS_URL + "" + process.env.REACT_APP_ARCGIS_KEY + "&singleLine=" + term;
+        const geoData = await fetch(url);
+        const jsonGeo = await geoData.json();
+        const gr:any[] = [];
+        jsonGeo.candidates.map((candidate: any) => {
+            gr.push({lat: candidate.location.x, lng: candidate.location.y, address: candidate.address});
+        });
+        setGeoResults(gr);
+        setLocationName(term);
+        console.log(geoResults);
+    }
+
+    const setLatLng = (lat: number, lng: number, name: string) => {
+        setLat(lat);
+        setLng(lng);
+        setGeoResults([]);
+        setLocationName(name);
     }
 
     useEffect(() => {
         if (!initialized.current) {
             initialized.current = true;
             fetchSats();
+            startDateSelected.current = getDefaultDate();
+            endDateSelected.current = getDefaultDate();
         }
+        setLat(-79.6);
+        setLng(43.7);
     }, []);
 
     const clickAndSelectSatelitte = (noradIdSelected: number, name: string) => {
-        fetchInstruments(noradIdSelected);
         noradId.current = noradIdSelected;
         selectedSatellite.current = name;
+        fetchInstruments(noradIdSelected);
     }
 
     const clickAndSelectInstrument = (instrumentIdSat: number, instrumentName: string) => {
         selectedInstrument.current = instrumentName;
+        setTheInstrument(instrumentName);
         instrumentId.current = instrumentIdSat;
     }
 
@@ -99,7 +156,6 @@ const Mission = () => {
         setEndHour(hour);
         endHourSelected.current = hour;
     }
-
 
     return (
         <>
@@ -133,13 +189,13 @@ const Mission = () => {
                                 <label htmlFor="imagery">Imagery Type</label>
                                 <Dropdown>
                                     <Dropdown.Toggle variant="success" id="imagery" className={`${missionStyles.dropDown}`}>
-                                        {selectedInstrument.current}
+                                        {theInstrument}
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
                                         {instruments.map((instrument: any) =>
                                             <Dropdown.Item href="#" key={instrument.id + '_' + instrument.d} onClick={(e) => clickAndSelectInstrument(instrument.id, instrument.type)}>
-                                                {instrument && instrument.type}
+                                                {instrument.type}
                                             </Dropdown.Item>
                                         )}
                                     </Dropdown.Menu>
@@ -148,6 +204,16 @@ const Mission = () => {
                         </Row>
                         <Row >
                             <Col xs={12} xxl={12} >
+                                <Form.Control type="text" placeholder="Location" className={`${missionStyles.mapSearch}`} onChange={(e) => geoLookup(e.target.value)} />
+                                <Row className="geoResults">
+                                    <Col xs={12} xxl={12} className="geoResList">
+                                        {geoResults.map((result) =>
+                                            <Link to="#" onClick={(e) => setLatLng(result.lat, result.lng, result.address)} key={"geos_" + Math.random()}>
+                                                {result.address}
+                                            </Link>
+                                        )}
+                                    </Col>
+                                </Row>
                                 <Map />
                             </Col>
                         </Row>
@@ -156,10 +222,10 @@ const Mission = () => {
                         <Row className="missionDetails">
                             <Col xs={3} xxl={3}>
                                 <label htmlFor={"dateStart"}>Mission start and end</label>
-                                <Form.Control type="date" value={startDate} onChange={(e) => clickAndSelectStartDate(e.target.value)} />
+                                <Form.Control type="date" value={startDateSelected.current} onChange={(e) => clickAndSelectStartDate(e.target.value)} />
                             </Col>
                             <Col xs={3} xxl={3}>
-                                <Form.Control type="date" style={{ marginTop: "2vh" }} value={endDate} onChange={(e) => clickAndSelectEndDate(e.target.value)} />
+                                <Form.Control type="date" style={{ marginTop: "2vh" }} value={endDateSelected.current} onChange={(e) => clickAndSelectEndDate(e.target.value)} />
                             </Col>
                             <Col xs={3} xxl={3}>
                                 <Dropdown style={{ marginTop: "2vh" }}>
@@ -168,8 +234,8 @@ const Mission = () => {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
-                                        {hours.map((hour:string) =>
-                                            <Dropdown.Item href="#" key={"startHour-" + hour} onClick={(e) => clickAndSelectStartHour(hour) } >
+                                        {hours.map((hour: string) =>
+                                            <Dropdown.Item href="#" key={"startHour-" + hour} onClick={(e) => clickAndSelectStartHour(hour)} >
                                                 {hour}
                                             </Dropdown.Item>
                                         )}
@@ -183,8 +249,8 @@ const Mission = () => {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
-                                        {hours.map((hour:string) =>
-                                            <Dropdown.Item href="#" key={"endHour-" + hour} onClick={(e) => clickAndSelectEndHour(hour) }>
+                                        {hours.map((hour: string) =>
+                                            <Dropdown.Item href="#" key={"endHour-" + hour} onClick={(e) => clickAndSelectEndHour(hour)}>
                                                 {hour}
                                             </Dropdown.Item>
                                         )}
