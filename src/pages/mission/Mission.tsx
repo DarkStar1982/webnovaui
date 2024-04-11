@@ -3,18 +3,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useLocation, Link } from "react-router-dom";
 import { Col, Row, Form, Table, Button, Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Map } from './Map';
+import { ExodusMap } from './ExodusMap';
 import { challenges } from 'data/challenges';
 import { hours } from 'data/hours';
-import "leaflet/dist/leaflet.css";
 import missionStyles from './MissionScreen.module.css';
 
-
-interface Geo {
-    address: string;
-    lat: number;
-    lng: number;
-}
 const Mission = () => {
 
     const location = useLocation();
@@ -30,6 +23,12 @@ const Mission = () => {
     const startHourSelected = useRef('START TIME');
     const endHourSelected = useRef('END TIME');
 
+    const latSelected = useRef(43.7);
+    const lngSelected = useRef(-79.6);
+    const timesOnTargetSelected = useRef("");
+    const autocompleteVisible = useRef(false);
+    const timesOnTarget = useRef([]);
+
     const [satellites, setSatelliteList] = useState([]);
     const [instruments, setInstrumentList] = useState([]);
 
@@ -41,15 +40,15 @@ const Mission = () => {
     const [startHour, setStartHour] = useState('START TIME');
     const [endHour, setEndHour] = useState('END TIME');
 
-    const [lat, setLat] = useState(-79.6);
-    const [lng, setLng] = useState(43.7);
+    const [lat, setLat] = useState(43.7);
+    const [lng, setLng] = useState(-79.6);
     const [locationName, setLocationName] = useState("Toronto");
 
-    const [coordinates, setCoordinates] = useState([]);
     const [geoResults, setGeoResults] = useState(Array<any>);
 
     const id = pathname.substring(pathname.lastIndexOf('/') + 1)
     const challenge = challenges[Number(id)]
+
 
     const getDefaultDate = () => {
         const today = new Date();
@@ -69,6 +68,18 @@ const Mission = () => {
         return defaultDate;
     }
 
+    const formatSatDate = (day: any, month: any, year: any) => {
+        let d = day.toString();
+        let m = month.toString();
+        if (day < 10) {
+            d = '0' + day;
+        }
+        if (month < 10) {
+            m = '0' + month;
+        }
+        return year.toString() + "-" + m + "-" + d;
+    }
+
     const fetchSats = async () => {
         const satData = await fetch(process.env.REACT_APP_API_URL + 'satellites');
         const satDataJson = await satData.json();
@@ -85,33 +96,37 @@ const Mission = () => {
         const satData = await fetch(process.env.REACT_APP_API_URL +
             'times_on_target?norad_id=' + noradId.current +
             '&instrument_id=' + instrumentId.current +
-            '&net=' + startDateSelected.current +
-            '&nlt=' + endDateSelected.current +
-            '&lat=' + lat +
-            '&lng=' + lng
+            '&net=' + startDateSelected.current + ' ' + startHourSelected.current + ":00" +
+            '&nlt=' + endDateSelected.current + ' ' + endHourSelected.current + ":00" +
+            '&lat=' + latSelected.current +
+            '&lng=' + lngSelected.current
         );
         const satDataJson = await satData.json();
-        setInstrumentList(satDataJson[0].instruments);
+        console.log(satDataJson.target_passes);
+        timesOnTarget.current = satDataJson.target_passes;
     }
 
     const geoLookup = async (term: string) => {
         const url = process.env.REACT_APP_ARCGIS_URL + "" + process.env.REACT_APP_ARCGIS_KEY + "&singleLine=" + term;
         const geoData = await fetch(url);
         const jsonGeo = await geoData.json();
-        const gr:any[] = [];
+        const gr: any[] = [];
         jsonGeo.candidates.map((candidate: any) => {
-            gr.push({lat: candidate.location.x, lng: candidate.location.y, address: candidate.address});
+            gr.push({ lat: candidate.location.y, lng: candidate.location.x, address: candidate.address });
         });
+        autocompleteVisible.current = true;
         setGeoResults(gr);
         setLocationName(term);
-        console.log(geoResults);
     }
 
     const setLatLng = (lat: number, lng: number, name: string) => {
         setLat(lat);
         setLng(lng);
+        latSelected.current = lat;
+        lngSelected.current = lng;
         setGeoResults([]);
         setLocationName(name);
+        autocompleteVisible.current = false;
     }
 
     useEffect(() => {
@@ -137,6 +152,24 @@ const Mission = () => {
         instrumentId.current = instrumentIdSat;
     }
 
+    const isDateTimeValid = (start: string, end: string) => {
+        const startDateTime = Date.parse(start);
+        const endDateTime = Date.parse(end);
+        return startDateTime < endDateTime;
+    }
+
+    const adjustDatePlusOne = (dateVal: string, dateVAR: any) => {
+        const timestamp = Date.parse(dateVal);
+        let rawDate = new Date(timestamp);
+        let day = rawDate.getDay() + 1;
+        let month = rawDate.getMonth() + 1;
+        let year = rawDate.getFullYear();
+        return formatSatDate(day, month, year);
+
+    }
+    const adjustDateMinusOne = (dateVal: string, dateVAR: any) => {
+
+    }
     const clickAndSelectStartDate = (date: string) => {
         setStartDate(date);
         startDateSelected.current = date;
@@ -155,6 +188,7 @@ const Mission = () => {
     const clickAndSelectEndHour = (hour: string) => {
         setEndHour(hour);
         endHourSelected.current = hour;
+        fetchTimesOnTarget();
     }
 
     return (
@@ -204,17 +238,24 @@ const Mission = () => {
                         </Row>
                         <Row >
                             <Col xs={12} xxl={12} >
-                                <Form.Control type="text" placeholder="Location" className={`${missionStyles.mapSearch}`} onChange={(e) => geoLookup(e.target.value)} />
-                                <Row className="geoResults">
-                                    <Col xs={12} xxl={12} className="geoResList">
-                                        {geoResults.map((result) =>
-                                            <Link to="#" onClick={(e) => setLatLng(result.lat, result.lng, result.address)} key={"geos_" + Math.random()}>
-                                                {result.address}
-                                            </Link>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Map />
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Location"
+                                    className={`${missionStyles.mapSearch}`}
+                                    onChange={(e) => geoLookup(e.target.value)}
+                                    value={locationName}
+                                />
+                                {autocompleteVisible.current &&
+                                    <Row className={`${missionStyles.geoResults}`}>
+                                        <Col xs={12} xxl={12} >
+                                            {geoResults.map((result) =>
+                                                <Link to="#" onClick={(e) => setLatLng(result.lat, result.lng, result.address)} key={"geos_" + Math.random()}>
+                                                    {result.address}
+                                                </Link>
+                                            )}
+                                        </Col>
+                                    </Row>}
+                                <ExodusMap lat={latSelected.current} lng={lngSelected.current} zoom={9} />
                             </Col>
                         </Row>
                     </Col>
@@ -265,30 +306,35 @@ const Mission = () => {
                                         <tr>
                                             <th>START TIME</th>
                                             <th>END TIME</th>
-                                            <th>DURATION</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                 </Table>
                                 <Table hover size="sm" id="passTimesList" className={missionStyles.missionListTbody} style={{ backgroundColor: "#0F111A" }}>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td colSpan={2}>Larry the Bird</td>
-                                            <td></td>
-                                        </tr>
+                                        {timesOnTarget.current && timesOnTarget.current.map((times) => {
+                                            return (<tr key={Math.random()}>
+                                                <td>{times[0]}</td>
+                                                <td>{times[1]}</td>
+                                                <td>
+                                                    <Form.Check // prettier-ignore
+                                                        key={Math.random()}
+                                                        type="checkbox"
+                                                        onClick={(e) => {
+                                                            timesOnTargetSelected.current =times[0]+','+times[1];
+                                                        }}
+                                                    />
+                                                </td>
+                                            </tr>);
+                                        })}
+                                        {timesOnTarget.current.length < 1 &&
+                                            <tr>
+                                                <td></td>
+                                                <td>Please try a different time range.</td>
+                                                <td></td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </Table>
                                 <Row style={{ paddingBottom: "3vh" }}>
