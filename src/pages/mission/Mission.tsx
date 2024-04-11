@@ -53,7 +53,10 @@ const Mission = () => {
         const satData = await fetch(process.env.REACT_APP_API_URL +
             'times_on_target?norad_id=' + noradId.current +
             '&instrument_id=' + instrumentId.current+
-            '&'
+            '&net='+startDateSelected.current+
+            '&nlt='+endDateSelected.current+
+            '&lat='+
+            '&lng='
         );
         const satDataJson = await satData.json();
         setInstrumentList(satDataJson[0].instruments);

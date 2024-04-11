@@ -240,28 +240,3 @@ export const getColorByBgColor = (bgColor: string) => {
     return 'white';
   }
 };
-
-
-export const apiGet = (endpoint: string, params: any, apiFunct?: any) => {
-  const url = process.env.REACT_APP_API_URL + endpoint;
-
-  axios.get(url, {params: params})
-    .then((response) => {
-      apiFunct(response);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
-export const apiPost = (endpoint: string, params: any, apiFunct?: any) => {
-  const url = process.env.API_URL + endpoint;
-
-  axios.post(url, {params: params})
-    .then((response) => {
-      apiFunct(response);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
