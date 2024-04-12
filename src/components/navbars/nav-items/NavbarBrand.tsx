@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useAppContext } from 'providers/AppProvider';
 import { Navbar } from 'react-bootstrap';
-import logo from 'assets/img/icons/logo_wn.png';
+import logo from 'assets/img/webnova/logoLeft.png';
 import { useBreakpoints } from 'providers/BreakpointsProvider';
 import NavbarToggleButton from './NavbarToggleButton';
 import { Link } from 'react-router-dom';
