@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useLocation, Link } from "react-router-dom";
 import { Col, Row, Form, Table, Button, Dropdown } from 'react-bootstrap';
 import { saveAs } from 'file-saver';
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 import { ExodusMap } from './ExodusMap';
 import { challenges } from 'data/challenges';
 import { hours } from 'data/hours';
@@ -27,32 +27,27 @@ const Mission = () => {
 
     const latSelected = useRef(43.7);
     const lngSelected = useRef(-79.6);
-    const timesOnTargetSelected = useRef([]);
     const autocompleteVisible = useRef(false);
     const timesOnTarget = useRef([]);
 
     const [satellites, setSatelliteList] = useState([]);
     const [instruments, setInstrumentList] = useState([]);
-
     const [theInstrument, setTheInstrument] = useState("SENSOR");
-
     const [startDate, setStartDate] = useState('START DATE');
     const [endDate, setEndDate] = useState('END DATE');
-
-    const [startHour, setStartHour] = useState('START TIME');
-    const [endHour, setEndHour] = useState('END TIME');
-
+    const [startHour, setStartHour] = useState('00:00');
+    const [endHour, setEndHour] = useState('23:59');
     const [lat, setLat] = useState(43.7);
     const [lng, setLng] = useState(-79.6);
     const [locationName, setLocationName] = useState("Toronto");
-    
-
     const [geoResults, setGeoResults] = useState(Array<any>);
+    const [timeTarget, setTimeTarget] = useState(Array<any>);
 
     const id = pathname.substring(pathname.lastIndexOf('/') + 1)
     const challenge = challenges[Number(id)]
 
     let timesTarget: Array<Array<string>> = [];
+
     const getDefaultDate = () => {
         const today = new Date();
 
@@ -71,18 +66,6 @@ const Mission = () => {
         return defaultDate;
     }
 
-    const formatSatDate = (day: any, month: any, year: any) => {
-        let d = day.toString();
-        let m = month.toString();
-        if (day < 10) {
-            d = '0' + day;
-        }
-        if (month < 10) {
-            m = '0' + month;
-        }
-        return year.toString() + "-" + m + "-" + d;
-    }
-
     const fetchSats = async () => {
         const satData = await fetch(process.env.REACT_APP_API_URL + 'satellites');
         const satDataJson = await satData.json();
@@ -96,21 +79,20 @@ const Mission = () => {
     }
 
     const fetchTimesOnTarget = async () => {
-        try {
-            const satData = await fetch(process.env.REACT_APP_API_URL +
-                'times_on_target?norad_id=' + noradId.current +
-                '&instrument_id=' + instrumentId.current +
-                '&net=' + startDateSelected.current + ' ' + startHourSelected.current + ":00" +
-                '&nlt=' + endDateSelected.current + ' ' + endHourSelected.current + ":00" +
-                '&lat=' + latSelected.current +
-                '&lng=' + lngSelected.current
-            );
-            const satDataJson = await satData.json();
-
-            timesOnTarget.current = satDataJson.target_passes;
-        } catch (e)  {
-            console.log(e)
-        }
+        fetch(process.env.REACT_APP_API_URL +
+            'times_on_target?norad_id=' + noradId.current +
+            '&instrument_id=' + instrumentId.current +
+            '&net=' + startDateSelected.current + ' ' + startHour + ":00" +
+            '&nlt=' + endDateSelected.current + ' ' + endHour + ":00" +
+            '&lat=' + latSelected.current +
+            '&lng=' + lngSelected.current
+        )
+        .then(response => response.json())
+        .then(response => {
+            timesOnTarget.current = response.target_passes;
+            setTimeTarget(response.target_passes);
+        })
+        .catch(err => console.error(err));
     }
 
     const geoLookup = async (term: string) => {
@@ -159,25 +141,6 @@ const Mission = () => {
         instrumentId.current = instrumentIdSat;
     }
 
-    const isDateTimeValid = (start: string, end: string) => {
-        const startDateTime = Date.parse(start);
-        const endDateTime = Date.parse(end);
-        return startDateTime < endDateTime;
-    }
-
-    const adjustDatePlusOne = (dateVal: string, dateVAR: any) => {
-        const timestamp = Date.parse(dateVal);
-        let rawDate = new Date(timestamp);
-        let day = rawDate.getDay() + 1;
-        let month = rawDate.getMonth() + 1;
-        let year = rawDate.getFullYear();
-        return formatSatDate(day, month, year);
-
-    }
-    const adjustDateMinusOne = (dateVal: string, dateVAR: any) => {
-
-    }
-
     const clickAndSelectStartDate = (date: string) => {
         setStartDate(date);
         startDateSelected.current = date;
@@ -200,7 +163,6 @@ const Mission = () => {
     }
 
     const configureMission = () => {
-
         let configureMissionData: ConfigureMission = {
             satellite: noradId.current,
             instrument: instrumentId.current.toString(),
