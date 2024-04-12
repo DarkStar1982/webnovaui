@@ -27,7 +27,7 @@ const Mission = () => {
 
     const latSelected = useRef(43.7);
     const lngSelected = useRef(-79.6);
-    const timesOnTargetSelected = useRef("");
+    const timesOnTargetSelected = useRef([]);
     const autocompleteVisible = useRef(false);
     const timesOnTarget = useRef([]);
 
@@ -45,12 +45,14 @@ const Mission = () => {
     const [lat, setLat] = useState(43.7);
     const [lng, setLng] = useState(-79.6);
     const [locationName, setLocationName] = useState("Toronto");
+    
 
     const [geoResults, setGeoResults] = useState(Array<any>);
 
     const id = pathname.substring(pathname.lastIndexOf('/') + 1)
     const challenge = challenges[Number(id)]
 
+    let timesTarget: Array<Array<string>> = [];
     const getDefaultDate = () => {
         const today = new Date();
 
@@ -104,7 +106,7 @@ const Mission = () => {
                 '&lng=' + lngSelected.current
             );
             const satDataJson = await satData.json();
-    
+
             timesOnTarget.current = satDataJson.target_passes;
         } catch (e)  {
             console.log(e)
@@ -198,7 +200,6 @@ const Mission = () => {
     }
 
     const configureMission = () => {
-        let passes = timesOnTargetSelected.current.split(",");
 
         let configureMissionData: ConfigureMission = {
             satellite: noradId.current,
@@ -208,7 +209,7 @@ const Mission = () => {
             start_date: startDateSelected.current,
             mission_type: "RGB",
             description: challenge.name,
-            passes: [passes]
+            passes: timesTarget
         };
         const blob = new Blob([JSON.stringify(configureMissionData)], { type: "text/plain;charset=utf-8" });
         saveAs(blob, "configureMission.json");
@@ -345,7 +346,7 @@ const Mission = () => {
                                                         key={Math.random()}
                                                         type="checkbox"
                                                         onClick={(e) => {
-                                                            timesOnTargetSelected.current =times[0]+','+times[1];
+                                                            timesTarget.push([times[0], times[1]]);
                                                         }}
                                                     />
                                                 </td>
