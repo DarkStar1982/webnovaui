@@ -21,8 +21,8 @@ export const ChallengeItemWrapper: FC<Props> = memo(function Wrapper(props = {})
   const handleClick = () => {
 
     let cid = (props.challengeId) ? props.challengeId -1 : 0;
-    // let url = "/pages/mission/" + cid;
-    let url = "http://webnova-dev.exodusorbitals.com/app_rgb.html";
+    let url = "/pages/mission/" + cid;
+    // let url = "http://webnova-dev.exodusorbitals.com/app_rgb.html";
     window.location.href = url;
   }
 
