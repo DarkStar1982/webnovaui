@@ -1,17 +1,18 @@
 import { Col, Row } from 'react-bootstrap';
 import { ChallengeItems, challenges } from 'data/challenges';
 import { ChallengeItemWrapper } from 'components/webnova/Wrapper/ChallengeItemWrapper';
+import challengesStyle from "./Challenges.module.css";
 
 
 const Challenges = () => {
     return (
         <>
-            <div className="pb-5">
+            <div className={`pb-5 ${challengesStyle.challengesList}`}>
                 <Row className="g-4">
                     <Col xs={12} xxl={6} className="mb-8">
-                        <div className="mb-8">
-                            <h2 className="mb-2">Challenges</h2>
-                            <h5 className="text-700 fw-semi-bold">Start your space exploration by selecting a challenge</h5>
+                        <div className="mb-6">
+                            <h2 className="mb-2 challengesTitle">Challenges</h2>
+                            <h5 className={`text-700 fw-semi-bold ${challengesStyle.challengeSub}`}>Start your space exploration by selecting a challenge</h5>
                         </div>
                     </Col>
                 </Row>

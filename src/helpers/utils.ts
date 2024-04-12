@@ -9,6 +9,7 @@ import {
   faMusic
 } from '@fortawesome/free-solid-svg-icons';
 import ts, { transpile } from 'typescript';
+import axios from 'axios';
 
 export const getItemFromStore = (
   key: string,

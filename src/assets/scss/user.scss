@@ -80,3 +80,17 @@ div[class^=InputDark_StateFilledCaptionIn] {
 .configureMissionButton:hover {
     background-color: #593bab;
 }
+
+.challengesTitle, .missionTitle {
+    font-size: 40pt;
+}
+
+.form-check-input:checked{
+    background-color: #DA9B1A!important;
+    // box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(242, 205, 130, 0.5)!important;
+    border-color: #DA9B1A!important;
+}
+
+.dark .table, .dark .picmo__popupContainer.picmo__light .table  {
+    --phoenix-table-hover-color: #969F98!important;
+}

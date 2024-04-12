@@ -14,7 +14,7 @@ const ExodusFooter = ({ className }: FooterProps) => {
                 <Col xs={6} sm="auto" className="text-center">
                     <p className="mb-0 mt-2 mt-sm-0 text-900" style={{color: "#edeef7"}}>
                         <span className="d-none d-sm-inline-block" style={{color: "#edeef7"}}/>
-                        <a style={{color: "#9f9fbc"}} className="d-sm-inline-block" href="https://exodusorbitals.com" target="_blank">&copy;{' '} {new Date().getFullYear()} - Exodus Orbitals</a> 
+                        <a style={{color: "#9f9fbc"}} className="d-sm-inline-block" href="https://exodusorbitals.com" target="_blank" rel="noreferrer">&copy;{' '} {new Date().getFullYear()} - Exodus Orbitals</a> 
                     </p>
                 </Col>
                 <Col xs={6} sm="auto" className="text-center" style={{color: "#edeef7"}}>

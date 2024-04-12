@@ -26,12 +26,12 @@ const MainLayout = () => {
   const { contentClass, footerClass } = useMainLayoutContext();
 
   
-  let marginTopContain = "10vh";
+  let marginTopContain = "-2vh";
   let containerStyle = {marginTop: marginTopContain};
   if (pathname == "/") {
     marginTopContain = "-10vh";
     //  skip login
-    // return <Navigate replace to="/pages/challenges" />;
+    return <Navigate replace to="/pages/challenges" />;
   }
   containerStyle = {marginTop: marginTopContain};
 
