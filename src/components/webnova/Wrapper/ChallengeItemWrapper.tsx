@@ -16,13 +16,12 @@ interface Props {
   challengeId?: number;
 }
 
-/* @figmaId 17248:26834 */
 export const ChallengeItemWrapper: FC<Props> = memo(function Wrapper(props = {}) {
   const handleClick = () => {
 
     let cid = (props.challengeId) ? props.challengeId -1 : 0;
-    let url = "/pages/mission/" + cid;
-    // let url = "http://webnova-dev.exodusorbitals.com/app_rgb.html";
+    // let url = "/pages/mission/" + cid;
+    let url = "http://webnova-dev.exodusorbitals.com/app_rgb.html";
     window.location.href = url;
   }
 
@@ -41,7 +40,7 @@ export const ChallengeItemWrapper: FC<Props> = memo(function Wrapper(props = {})
                 </div>
                 <div className={classes.frame4115}>
                   <div className={classes.text7}>
-                    {/* Location: */}
+                    { props.location && "Location:" }
                   </div>
                   <div className={classes.text8}>{props.location}</div>
                 </div>

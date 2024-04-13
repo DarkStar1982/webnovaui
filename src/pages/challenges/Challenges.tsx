@@ -26,6 +26,7 @@ const Challenges = () => {
                                         description={item.description} 
                                         challengeId={item.id}
                                         dataType={item.dataType}
+                                        location={item.location}
                                         />;
                         })}
                     </Col>

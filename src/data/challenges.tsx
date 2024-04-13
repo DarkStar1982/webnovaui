@@ -10,6 +10,7 @@ export type ChallengeItems = {
     description: string;
     id: number;
     dataType?: string;
+    location?: string;
 };
 
 export const challenges: ChallengeItems[] = [
@@ -19,6 +20,7 @@ export const challenges: ChallengeItems[] = [
         name: "Snapshots! (training)",
         description: "Given a location on Earth, schedule taking two photos of it using our UI/API at different times/dates",
         dataType: "RGB",
+        location: ""
     },
     {
         id: 2,
@@ -26,6 +28,7 @@ export const challenges: ChallengeItems[] = [
         name: "Find that plane!",
         description: "A plane has crashed in the area and it is imperative we find the location of the crash quickly. Compare the difference between two images before and after the event, find the crash location!",
         dataType: "RGB",
+        location: ""
     },
     {
         id: 3,
@@ -33,6 +36,7 @@ export const challenges: ChallengeItems[] = [
         name: "Deforestation challenge",
         description: "Given the satellite imagery of forested area, find amount of trees that has been cut down between two dates.",
         dataType: "RGB",
+        location: ""
     },
     {
         id: 4,
@@ -40,6 +44,7 @@ export const challenges: ChallengeItems[] = [
         name: "Count the containers.",
         description: "Given the image of shipping port, estimated how many containers have left or arrived at the port there, in 20TEU units between two dates. Note that containers can be stacked on top of each other.",
         dataType: "RGB",
+        location: ""
     },
     {
         id: 5,
@@ -47,5 +52,6 @@ export const challenges: ChallengeItems[] = [
         name: "Find a camouflaged object (Bonus)",
         description: "There is a hidden object somewhere in the area... you don't know what it is and where it is, but you it exists! Find the object, from the imagery before and after object has been present.",
         dataType: "RGB",
+        location: ""
     }
 ]
