@@ -1,0 +1,91 @@
+.leftPanel,
+.darkBg {
+    background-color: #0d0d0d;
+}
+
+.rightPanel {}
+
+.leaflet-container {
+    /* width: 100%;
+    height: 100vh;
+    z-index: 1; */
+}
+
+.missionMap {
+    height: 200px;
+}
+
+button#landsat,
+button#imagery {
+    width: 100%;
+    background-color: #1a1724 !important;
+    width: 100vw;
+}
+
+.content {
+    background-color: #0d0d0d !important;
+}
+
+.missionListTbody {
+    border-bottom: 0;
+    --phoenix-table-hover-color: #ffffff;
+    height: auto;
+}
+
+.missionListTbody:hover {
+    color: #ffffff !important;
+}
+
+
+.missionListCell {
+    border-bottom: 0;
+}
+
+.configureMissionButton {
+    background-color: #472f88 !important;
+}
+
+.configureMissionButton:hover {
+    background-color: #593bab !important;
+}
+
+.dropDown {
+    background-color: #1A1724 !important;
+    border: 1px #373E53 !important;
+    margin-bottom: 2vh !important;
+    width: 100% !important;
+}
+
+.mapSearch {
+    z-index: 2000;
+}
+
+.mapSearchAutocomplete {
+    display: none;
+    width: 100%;
+    height: 3vh;
+}
+
+.geoResults {
+    position: fixed;
+    z-index: 2002;
+    background-color: #0d0d0d;
+    width: 30%;
+    border-radius: 6px;
+    border: 1px solid #31374A;
+    padding: 15px;
+}
+
+.form-check-input{
+    background-color: #DA9B1A!important;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(240, 217, 170, 1)!important;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(240, 217, 170, 1)!important;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(0, 0, 0, 0.25)!important;
+}
+
+
+.form-check-input:checked{
+    background-color: #DA9B1A!important;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(240, 217, 170, 1)!important;
+    border-color: #DA9B1A!important;
+}

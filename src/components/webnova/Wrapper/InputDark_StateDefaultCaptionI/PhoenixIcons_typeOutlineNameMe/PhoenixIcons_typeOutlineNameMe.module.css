@@ -1,0 +1,19 @@
+.root {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.union {
+  position: absolute;
+  left: 3.0003px;
+  top: 6px;
+  width: 18px;
+  height: 12px;
+  overflow: visible;
+}
+.icon {
+  width: 100%;
+  height: 100%;
+}
