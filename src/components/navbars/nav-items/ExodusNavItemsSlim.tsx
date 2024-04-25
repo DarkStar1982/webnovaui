@@ -1,7 +1,7 @@
 import { Dropdown, Modal, Nav } from 'react-bootstrap';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
-import NineDotMenu from './NineDotMenu';
+// import NineDotMenu from './NineDotMenu';
 import ProfileDropdownMenu from './ProfileDropdownMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThemeToggler from 'components/common/ThemeToggler';

@@ -3,12 +3,19 @@ import { useState, useEffect, useRef } from 'react';
 import { useLocation, Link } from "react-router-dom";
 import { Col, Row, Form, Table, Button, Dropdown } from 'react-bootstrap';
 import { saveAs } from 'file-saver';
-// import 'bootstrap/dist/css/bootstrap.css';
 import { ExodusMap } from './ExodusMap';
 import { challenges } from 'data/challenges';
 import { hours } from 'data/hours';
 import missionStyles from './MissionScreen.module.css';
 import { ConfigureMission } from 'types/ConfigureMission';
+import { AsyncTypeahead, Menu, MenuItem } from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+
+interface Item {
+    lat: string;
+    lng: string;
+    address: string;
+}
 
 const Mission = () => {
 
@@ -47,6 +54,29 @@ const Mission = () => {
     const challenge = challenges[Number(id)]
 
     let timesTarget: Array<Array<string>> = [];
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [options, setOptions] = useState<Item[]>([]);
+
+    const handleSearch = (term: string) => {
+        setIsLoading(true);
+        const url = process.env.REACT_APP_ARCGIS_URL + "" + process.env.REACT_APP_ARCGIS_KEY + "&singleLine=" + term;
+        fetch(url)
+            .then((resp) => resp.json())
+            .then((response) => {
+                const gr: any[] = [];
+                response.candidates.map((candidate: any) => {
+                    gr.push({ lat: candidate.location.y, lng: candidate.location.x, address: candidate.address });
+                });
+                autocompleteVisible.current = true;
+                setGeoResults(gr);
+                setOptions(gr);
+                setLocationName(term);
+                setIsLoading(false);
+            });
+    };
+
+    const filterBy = () => true;
 
     const getDefaultDate = () => {
         const today = new Date();
@@ -87,25 +117,12 @@ const Mission = () => {
             '&lat=' + latSelected.current +
             '&lng=' + lngSelected.current
         )
-        .then(response => response.json())
-        .then(response => {
-            timesOnTarget.current = response.target_passes;
-            setTimeTarget(response.target_passes);
-        })
-        .catch(err => console.error(err));
-    }
-
-    const geoLookup = async (term: string) => {
-        const url = process.env.REACT_APP_ARCGIS_URL + "" + process.env.REACT_APP_ARCGIS_KEY + "&singleLine=" + term;
-        const geoData = await fetch(url);
-        const jsonGeo = await geoData.json();
-        const gr: any[] = [];
-        jsonGeo.candidates.map((candidate: any) => {
-            gr.push({ lat: candidate.location.y, lng: candidate.location.x, address: candidate.address });
-        });
-        autocompleteVisible.current = true;
-        setGeoResults(gr);
-        setLocationName(term);
+            .then(response => response.json())
+            .then(response => {
+                timesOnTarget.current = response.target_passes;
+                setTimeTarget(response.target_passes);
+            })
+            .catch(err => console.error(err));
     }
 
     const setLatLng = (lat: number, lng: number, name: string) => {
@@ -224,23 +241,20 @@ const Mission = () => {
                         </Row>
                         <Row >
                             <Col xs={12} xxl={12} >
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Location"
-                                    className={`${missionStyles.mapSearch}`}
-                                    onChange={(e) => geoLookup(e.target.value)}
-                                    value={locationName}
+                                <AsyncTypeahead className={missionStyles.asyncGeoSearchLocation}
+                                    filterBy={filterBy}
+                                    id="async-geo-search-location"
+                                    isLoading={isLoading}
+                                    labelKey="address"
+                                    minLength={3}
+                                    onSearch={handleSearch}
+                                    options={options}
+                                    onChange={(selected: Array<any>) => {
+                                        selected[0] && selected[0].lat && selected[0].lng &&
+                                        setLatLng(selected[0].lat, selected[0].lng, selected[0].address);
+                                    }}
+                                    placeholder="Search for a location"
                                 />
-                                {autocompleteVisible.current &&
-                                    <Row className={`${missionStyles.geoResults}`}>
-                                        <Col xs={12} xxl={12} >
-                                            {geoResults.map((result) =>
-                                                <Link to="#" onClick={(e) => setLatLng(result.lat, result.lng, result.address)} key={"geos_" + Math.random()}>
-                                                    {result.address}
-                                                </Link>
-                                            )}
-                                        </Col>
-                                    </Row>}
                                 <ExodusMap lat={latSelected.current} lng={lngSelected.current} zoom={9} />
                             </Col>
                         </Row>

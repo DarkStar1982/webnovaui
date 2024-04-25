@@ -25,7 +25,8 @@ export const ExodusMap = ({ lat, lng, zoom, adress}: MapProps) => {
     return (
         <MapContainer 
             center={[lat, lng]} 
-            zoom={zoom} 
+            zoom={zoom}
+            zoomControl={false} 
             scrollWheelZoom={true} 
             className={`${missionStyles.leaflet}`}
             key={Math.random()}
