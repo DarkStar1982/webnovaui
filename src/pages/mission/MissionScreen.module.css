@@ -89,3 +89,11 @@ button#imagery {
     box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(240, 217, 170, 1)!important;
     border-color: #DA9B1A!important;
 }
+
+.asyncGeoSearchLocation {
+    width: 72vh;
+    margin-left: 7%;
+    margin-right: auto;
+    margin-bottom: -5%;
+    z-index: 5000;
+}
