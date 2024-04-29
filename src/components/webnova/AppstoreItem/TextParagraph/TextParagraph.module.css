@@ -1,0 +1,41 @@
+.root {
+  width: max-content;
+  height: min-content;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #fff0;
+  overflow: hidden;
+}
+.text {
+  color: #212529;
+  font-size: 16px;
+  line-height: 150%;
+  font-family: Helvetica Neue, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  height: min-content;
+  align-self: stretch;
+  flex-direction: column;
+}
+.minWidthChangeSizeHere {
+  width: min-content;
+  max-width: 100%;
+  height: min-content;
+  max-height: 100%;
+  align-items: center;
+  gap: 400px;
+  overflow: hidden;
+}
+._ignore {
+  width: 0;
+  max-width: 100%;
+  height: 0;
+  max-height: 100%;
+  transform: matrix(0, 0, 0, 0, 0, 0);
+}
+._ignore2 {
+  width: 0;
+  max-width: 100%;
+  height: 0;
+  max-height: 100%;
+  transform: matrix(0, 0, 0, 0, 0, 0);
+}
