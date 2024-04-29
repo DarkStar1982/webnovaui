@@ -1,0 +1,224 @@
+
+.uniconIconSet.uniconIconSet {
+  width: 40px;
+  height: 40px;
+}
+.vector.vector {
+  left: 9.3752%;
+  right: 9.3745%;
+  bottom: 4.1666%;
+}
+.vector {
+  left: 9.3752%;
+  right: 9.3745%;
+  bottom: 4.1666%;
+}
+.icon {
+  width: 100%;
+  height: 100%;
+}
+.phoenixButtonsDark.phoenixButtonsDark {
+  align-self: flex-start;
+  width: 100%;
+  align-items: center!important;
+  text-align: center;
+}
+.label {
+  color: #fff;
+  font-size: 16px;
+  line-height: 120%;
+  font-weight: bold;
+  font-family: Nunito Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: min-content;
+  height: min-content;
+  text-align: center;
+  align-items: center;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.cardText.cardText {
+  width: 100%;
+  align-self: stretch;
+  background-color: initial;
+}
+
+.card{
+  height: 30vh;
+}
+.text {
+  color: #9f9fbc;
+  font-size: 16px;
+  line-height: 149%;
+  font-family: Mulish, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  height: min-content;
+  align-self: stretch;
+  flex-direction: column;
+}
+.content.content {
+  width: initial;
+  height: 24px;
+  align-self: stretch;
+  background-color: initial;
+}
+.text2 {
+  color: #212529;
+  font-size: 16px;
+  line-height: 150%;
+  font-family: Helvetica Neue, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: 266px;
+  height: 24px;
+  align-self: initial;
+  flex-direction: column;
+}
+.minWidthChangeSizeHere.minWidthChangeSizeHere {
+  flex-direction: column;
+  gap: initial;
+}
+._ignore._ignore {
+  transform: initial;
+}
+._ignore2._ignore2 {
+  transform: initial;
+}
+.content2.content2 {
+  width: initial;
+  height: 24px;
+  align-self: stretch;
+  background-color: initial;
+}
+.text3 {
+  color: #212529;
+  font-size: 16px;
+  line-height: 150%;
+  font-family: Helvetica Neue, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: 266px;
+  height: 24px;
+  align-self: initial;
+  flex-direction: column;
+}
+.minWidthChangeSizeHere2.minWidthChangeSizeHere2 {
+  flex-direction: column;
+  gap: initial;
+}
+._ignore3._ignore3 {
+  transform: initial;
+}
+._ignore4._ignore4 {
+  transform: initial;
+}
+.root {
+  /* height: 100vh; */
+  width: 90vw;
+  flex-direction: column;
+}
+.content3 {
+  height: 35vh;
+  align-self: stretch;
+  flex-direction: column;
+}
+.cardBody {
+  height: max-content;
+  align-self: stretch;
+  flex-direction: column;
+  padding: 24px;
+}
+.cardTitle {
+  height: min-content;
+  align-self: stretch;
+  align-items: center;
+  gap: 16px;
+  padding: 0 0 8px;
+  overflow: hidden;
+}
+.text4 {
+  color: #fff;
+  font-size: 25px;
+  line-height: 120%;
+  font-weight: 800;
+  font-family: Mulish, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  height: min-content;
+  flex: 1;
+  flex-direction: column;
+}
+.frame50 {
+  width: 100%;
+  height: min-content;
+  align-items: center;
+  gap: 32px;
+}
+.cardSubtitle {
+  width: max-content;
+  height: min-content;
+  align-items: flex-start;
+  gap: 24px;
+  overflow: hidden;
+}
+.frame502 {
+  width: max-content;
+  height: min-content;
+  align-items: center;
+  gap: 4px;
+}
+.text5 {
+  color: #9f9fbc;
+  font-size: 14px;
+  line-height: 149%;
+  font-family: Mulish, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: max-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.text6 {
+  color: #da9b1a;
+  font-size: 14px;
+  line-height: 149%;
+  font-family: Mulish, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: max-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.frame4115 {
+  width: max-content;
+  height: min-content;
+  align-items: center;
+  gap: 4px;
+}
+.text7 {
+  color: #9f9fbc;
+  font-size: 14px;
+  line-height: 149%;
+  font-family: Mulish, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: max-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.text8 {
+  color: #da9b1a;
+  font-size: 14px;
+  line-height: 149%;
+  font-family: Mulish, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
+.buttonList {
+  width: 100%;
+  height: min-content;
+}
+
+.challenge{
+  border-radius: 6px;
+}
